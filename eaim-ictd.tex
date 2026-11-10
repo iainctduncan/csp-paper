@@ -214,16 +214,18 @@ S4M-CSP runs on the Max audio/visual low-code programming environment, which was
 music and multimedia works and interactive environments. 
 Max is predominantly a visual programming environment, in which interactive programs (called "patches" in Max parlance)
 are placing visual objects on a canvas and connecting them with virtual wires that pass symbolic messages or blocks 
-of audio samples. In addition to the visual paradigm, Max supports textual programming predominantly through an integration
+of audio samples. However, in addition to the visual paradigm, Max supports textual programming predominantly through an integration
 with JavaScript (i.e., the js object), as well as through code editing for the Gen audio objects, 
 external processes through Node4Max, and Java code. 
 In addition to the built in facilities provided with Max, users may use "externals", third-party objects
-created using the Max SDK and built in C or C++. Various of these also support working in code in Max through
+created using the Max SDK and built in C or C++. (CITE Puckette or Zicarelli)
+Various of these also support working in code in Max through
 interfaces with other languages or embedded interpreters. 
+
 
 \subsection{Scheme for Max and Lisp}
 S4M-CSP is a code library for Scheme for Max (S4M), an open-source extension to Max that enables users to
-program Max using s7 Scheme, a Lisp dialect authored by Bill Schoetstadt of CCRMA, and also used
+program Max using s7 Scheme, a Lisp dialect authored by Bill Schoetstadt of CCRMA,  and also used
 in Common Music 3 and the snd audio editor. While the facilities of S4M-CSP could certainly be implemented
 in the built-in JavaScript facilities, S4M was used for several reasons. 
 
@@ -231,7 +233,7 @@ First, as a Lisp, S4M provides first-class support for symbols as a primitive da
 can be used identically in both Max messages (the graphic boxes in Max for holding and manipulating symbolic sequences),
 and in Scheme code. Lisp symbols are ideal for manipulating music symbols as they can be compared directly,
 rather than requiring string searching and matching. (Both s7 and Max maintain a symbol table for fast 
-lookup and comparison, and symbols may be used as hash-table keys for caching. In the context of a constraint
+lookup and comparison, and symbols may be used as hash-table keys for caching.) In the context of a constraint
 solver, where symbolic predicates may be evaluated hundreds-of-thousands of times per solution pass,
 this balance of user convenience and processing speed is a signficant advantage.
 
@@ -251,10 +253,71 @@ As previously mentioned, there is a significant history of Lisp code in both alg
 and computational musicology. While s7 is a Lisp-1, and thus differs from Common Lisp in a variety of ways,
 the author of s7 has made compatability with much of Common Lisp a high priority, including full support
 for Common Lisp facilites such as defmacro, reader macros, keywords, hash-tables, format, and more.
-Thus, while the user need not now or install anything beyond S4M and the S4M-CSP library to use the
+Thus, while the user need not know or install anything beyond S4M and the S4M-CSP library to use the
 solver, the use of S4M provides users the potential to integrate their work with numerous other Lisp 
 and Lisp related musical libraries and tools, such as Common Music 3, Slippery Chicken, Incudine, 
 and many more.
+
+
+\section{Positioning and Contribution}
+Given the breadth of CSP options for music, one might well ask why one might want to use S4M-CSP
+and what novel contributions the project makes relative to the other available options
+for constraint programming for music.
+
+\subsection{Platform Accessibility}
+First, S4M-CSP is intended to be accessible; it aims to provide the power and flexibility of
+constraing programming to the widest possible range of computer music composer-programmers and
+music educators. Max is arguably the most widely deployed computer music programming platform, 
+by a significant margin, as it is not only used worldwide for audio, music, and visual
+programming, but is shipped with the hugely successful Abelton Live digital audio workstation
+as Max for Live. While users need to install the S4M extension to Max, this is a well-documented
+and trivial step. The authors believe this is significantly more accessible to the average user
+than the competing offerings (e.g., OpenMusic, Patchworks, etc.) which require the user to 
+adopt a specific environment rather than being able to run a solver within an already mainstream
+environment.
+
+\subsection{Ease of Use}
+Second, using S4M-CSP requires less computer science background than many other options. 
+Programming constraints in s7 Scheme with the provided music theory library is very straightforward.
+Scheme is a very minimal language, and as a Lisp 1, it has a simpler syntax for higher order 
+programming than Common Lisp (i.e., there is no second namespace for functions from variables).
+The Scheme for Max project provides beginner tutorials for Scheme and free and open-source
+resources for learning Scheme abound. Additionally, interfacing with the solver from Max
+is simple as one can generate Scheme expressions directly in Max messages, simplifying the 
+process of creating real-time interfaces to the project.
+
+TODO: image of s-exp in a Max patch.
+
+TODO: code of generating a constraint
+
+\subsection{Exensibility}
+Third, both S4M and s7 Scheme are open-source and implemented in ANSI-C.
+Thus, the intrepid user can extend the solver at the language level, implementing
+new s7 predicates in C where performance optimizations warrant this. 
+In fact, one of the major reasons s7 was chosen by the author of Scheme for Max 
+was its simple foreign function interface and the ease with which it can be embedded in C projects.
+(CITE S4M Website)
+
+\subsection{Accurate Music Symbol Support}
+Finally, the S4M-CSP project and its underlying theory library are designed to support
+working in music notation where accuracy of symbol choice is important.
+To this end, S4M-CSP makes no assumptions as to when enharmonic equivalence is considered
+good enough. That is to say, the theory library understands that an augment-fourth
+above a C# is an F##, and that a solution finding a G should not necessarily be
+considered good. While this is not an important consideration in contexts 
+where a user "downsamples" to MIDI note numbers, in a situation where the project
+is used to make training exercises (e.g., harmony, aural skills), this distinction
+is critical and libraries that do not make it are unfit for purpose.
+
+The underlying theory library is implemented such that it correctly determines
+intervals regardless of the number of double sharps and flats, and uses intervals
+up to double-diminished and double-augmented correctly. While this is computationally
+much more expensive than more naive matching, the library uses aggressive caching
+throughout to negate that disadvantage. Music interval calculations are, by definition,
+pure functions; a double-augmented fourth above F is always B#. Thus, trading
+space for time makes sense on modern computers, and the S4M-CSP engine does this
+for interval, chord, and membership functions (i.e. checking whether the third of
+a G major 7 chord is B should always return true).
 
 
 \section{Objective}
