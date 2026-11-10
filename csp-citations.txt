@@ -1,0 +1,80 @@
+Citations:
+
+Bach - "A Max Library for Musical Notation and Computer-Aided Composition"
+
+ Arno - contraint programming in Common Music
+
+OpenMusic 
+
+Constraint-Solving Systems in Music Creation
+ -handbook of AI in music, 327-344
+
+Cope, computers and musical style
+
+
+https://scholar.google.com/citations?hl=en&user=Pfj_Jm8AAAAJ&view_op=list_works&sortby=pubdate
+http://torsten-anders.de/research
+
+
+Tymoczko, Dmitri. A Geometry of Music : Harmony and Counterpoint in the Extended Common Practice,
+Oxford University Press, Incorporated, 2011. ProQuest Ebook Central, 
+https://ebookcentral.proquest.com/lib/uvic/detail.action?docID=665450.
+
+AI Methods in Algorithmic Composition:A Comprehensive Survey, 2015 Fernandez
+
+Andrea Agostini, and Daniele Ghisi. 2012. BACH: AN ENVIRONMENT FOR COMPUTER-AIDED COMPOSITION IN MAX. In International Computer Music Conference Proceedings, vol. 2012. Ann Arbor, MI: Michigan Publishing, University of Michigan Library.
+
+Sandred, Oerjan. 2010. “PWMC, a Constraint-Solving System for Generating Music Scores.” Computer Music Journal (238 Main St., Suite 500, Cambridge, MA 02142-1046, USA) 34 (2): 8–24. https://doi.org/10.1162/comj.2010.34.2.8.
+
+
+Compositions Created with Constraint Programming - Anders, 2018 (oxford handbook)
+
+Gelisp: A Library to Represent Musical CSPs and Search Strategies
+Toro, 2015
+
+Handbook of Algorithmic Composition?
+
+GENERATING TARGETED RHYTHMIC EXERCISES FOR MUSIC STUDENTS WITH CONSTRAINT SATISFACTION PROGRAMMING
+percival, anders, tzanetakis  Anders, Torsten. "Generating targeted rhythmic exercises for music students with constraint satisfaction programming." In Proceedings of the 2008 International Computer Music Conference, August. 2008.
+
+Towards a Practical Tool for Music Composition: Using Constraint Programming to Model Chord Progressions and Modulations
+Sprockeels 2025 
+
+Artificial Intelligence in music education: a critical review
+Holland, Simon. "Artificial intelligence in music education: A critical review." Readings in music and artificial intelligence (2013): 239-274.
+
+Kuuskankare, M., Norilo, V. (2013). Rhythm Reading Exercises with PWGL. In: Hernández-Leo, D., Ley, T., Klamma, R., Harrer, A. (eds) Scaling up Learning for Sustained Impact. EC-TEL 2013. Lecture Notes in Computer Science, vol 8095. Springer, Berlin, Heidelberg. https://doi.org/10.1007/978-3-642-
+
+Algorithmic composition : paradigms of automated music generation
+Nierhaus, Gerhard. 2009. Algorithmic Composition : Paradigms of Automated Music Generation. 1st ed. 2009. Springer Nature. https://doi.org/10.1007/978-3-211-75540-2.
+
+Sprockeels, Damien, and Peter Van Roy. “Towards a Practical Tool for Music Composition: Using Constraint Programming to Model Chord Progressions and Modulations,” 2025.
+
+
+
+
+
+
+
+****************************************************************************************************
+Citations used:
+- Anders 2018 - on PMC
+- Sandred on PMC
+- Tymoczko, 2011 - on constraints for exploring music perception
+- Toro - gelisp
+- Cope - Elements of Musical Style
+- Bach, agostini 2012
+- Duane Pado - csp for stream analysis
+- percival and george - rhythm exercies
+- percival thesis - intonation exercises
+- holland - curriculum design with csp
+- kuuskankare - rhythm exercies
+- nierhaus 2009 - on illiac generate and test)
+
+- me, scheme for max
+- bill, s7 scheme
+- zicharelli, Max
+- Taube common music 3
+- cipriani & giri - code facilities in Max
+- ? a comparison of lisp-1 and 2 for functional programming
+

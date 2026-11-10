@@ -1,0 +1,15 @@
+Unique features: contributions
+
+- for the purpose of making educational tools, S4M-CSP does not treat
+enharmonic equivalents as the same tone. C# is thus considered equivalent
+unless the user specifically writes constraints that consider them to be so.
+
+- implemented in Scheme, thus creating higher-order functions and using
+them in functional idioms is easier for the programmer, and overall, 
+creating constraints is more accessible than in Common Lisp
+
+- runs directly in Max process space, and is run on the Scheme For Max
+- the intrepid user could recompile S4M itself to create optimized
+versions of Scheme functions in C. 
+
+

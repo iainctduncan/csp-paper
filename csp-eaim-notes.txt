@@ -1,0 +1,14 @@
+
+Related work brainstorm
+
+
+Tymozco
+
+
+
+TODO:
+- while libraries for contraint programming in music are available, S$M CSP
+provides two notable advantages to the regular user:
+- general purpose language
+- running in plain Max
+

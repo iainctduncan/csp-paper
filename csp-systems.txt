@@ -1,0 +1,6 @@
+Other CSP systems to look at
+
+Score-PMC
+
+PMC allows solving constraints in Lisp
+- solves constraints with classical backtracking 
