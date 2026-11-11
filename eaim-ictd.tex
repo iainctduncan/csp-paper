@@ -168,8 +168,8 @@ material that obeys defined rules) has an extensive and long history, dating as 
 Hiller and Isaacson's landmark composition, Illiac Suite (1957). The compositional approach
 for the Illiac Suite was one of "generate and test", in which separate algorithms were used
 to generate material and then to subsequently filter it for acceptability by testing against 
-programmatic constraints.
-(Nierhaus, 2009)
+programmatic constraints \cite{nierhaus2009algorithmic}.
+
 
 Gecode, one of the major general constraint satisfaction programming platforms, has been in 
 active development since the early 2000s and is used in musical contexts such as constraint 
@@ -312,7 +312,7 @@ Finally, the S4M-CSP project and its underlying theory library are designed to s
 working in music notation where accuracy of symbol choice is important.
 To this end, S4M-CSP makes no assumptions as to when enharmonic equivalence is considered
 good enough. That is to say, the theory library understands that an augment-fourth
-above a C# is an F##, and that a solution finding a G should not necessarily be
+above a C\# is an F\#\#, and that a solution finding a G should not necessarily be
 considered good. While this is not an important consideration in contexts 
 where a user "downsamples" to MIDI note numbers, in a situation where the project
 is used to make training exercises (e.g., harmony, aural skills), this distinction
@@ -323,7 +323,7 @@ intervals regardless of the number of double sharps and flats, and uses interval
 up to double-diminished and double-augmented correctly. While this is computationally
 much more expensive than more naive matching, the library uses aggressive caching
 throughout to negate that disadvantage. Music interval calculations are, by definition,
-pure functions; a double-augmented fourth above F is always B#. Thus, trading
+pure functions; a double-augmented fourth above F is always B\#. Thus, trading
 space for time makes sense on modern computers, and the S4M-CSP engine does this
 for interval, chord, and membership functions (i.e. checking whether the third of
 a G major 7 chord is B should always return true).
@@ -353,7 +353,7 @@ In order to make building systems with Max possible, all spellings use standard 
   \item Upper case letters specify a pitch letter in letters space
   \item Upper case Roman numerals incidate functional roots
   \item Lower case b and the \# sign indicate accidentals
-  \item double sharps or flats used multiple sequential 'b' and '#' characters.
+  \item double sharps or flats used multiple sequential 'b' and '\#' characters.
 \end{itemize}
 
 Rules predicates are specified as Scheme callables (functions or macros) that have a set
@@ -368,7 +368,7 @@ as lists of pitch class symbols. The solver expects the following inputs (i.e., 
 \begin{itemize}
   \item A Roman numeral progression such as '(IImin7 V7 Imaj7), '(IV7 V7 I7), etc.
   \item A key in which the progression is rendered such 'F, 'G, etc.
-  \item A domain of possible solution values: '(C1 'C#1 'Db1 ...)
+  \item A domain of possible solution values: '(C1 'C\#1 'Db1 ...)
   \item A list of constraint predicates as Scheme functions
 \end{itemize}
 
@@ -514,6 +514,9 @@ of the constraint implementations, the theory library, and Scheme itself.
 
 \section{Citations and Bibliography}
 \label{sec:cite}
+
+
+\cite{anders2011constraint} 
 
 The \textsf{jmlr} class automatically loads \textsf{natbib}.
 This sample file has the citations defined in the accompanying
