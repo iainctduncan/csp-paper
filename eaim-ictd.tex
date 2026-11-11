@@ -110,13 +110,13 @@ List of keywords
 
 
 In the 2020's, machine learning, and in particular deep learning, has inarguably become the dominant paradigm
-for artificial intelligence implementations, including in the field of music. 
-However, classical AI techniques, such as expert systems implemented using constraint satisfaction solvers, have 
+for artificial intelligence projects, including in the field of music. 
+However, classical AI techniques, such as expert systems implemented using constraint satisfaction, have 
 characteristics that make them that make them well suited to a variety of musical problems,
 and on modern machines, can be used in soft real time contexts where previously this would have been impractical.
 
 Constraint-based systems have the particular advantage that, while the computation time necessary
-to find a solution may be indeterminate, the solution itself (should one be found) can be guaranteed to meet formally
+to find a solution may be indeterminate (and long), the solution itself can be guaranteed to meet formally
 specified criteria. For the music teacher or algorithmic composer, this can be a critical feature.
 For example, in the creation of musical training tools, a tool author may wish to specify that the 
 symbolic musical content (perhaps presented as a score or played aloud using standard synthesizers)
@@ -124,34 +124,41 @@ follow specific voice leading rules given a particular chord progression.
 Or a jazz ear training exercise may use rules to specify that a walking bassline will only use
 specific generative rules, thus ensuring there is no ambiguity as to the underlying chord progression.
 In the case of a pedagogical exercise builder, it is not sufficient that the material generated be almost
-guaranteed to follow the rules specified as false-positive or false-negatives will be extremely frustrating
+guaranteed to follow the rules specified, as false-positive or false-negatives will be extremely frustrating
 to the student. 
 
-Or finally, a composer may wish to have stochastically generated material follow specific rules, with
-the option of interactively changing these rules as a piece is being played.
+Similarly, a composer exploring unique compositional processes may wish to have stochastically
+generated material follow specific rules, where "close enough" is, in effect, a compositional failure.
 
-We present here S4M-CSP, an implementation of a domain specific constraint solver and accompanying symbolic music theory
-library, implmented in s7 Scheme Lisp CITE BILL and run in the Max/MSP musical programming environment using the 
-open-source Scheme for Max extension. The authors are using this implementation to create both training
+We present here S4M-CSP, a domain specific constraint satisfaction problem (CSP) solver and 
+accompanying symbolic music theory library for defining constraints. 
+S4M-CSP is implmented in s7 Scheme Lisp, a Scheme dialect created with the composer-programmer in mind,
+that combines many convenience features of Common Lisp with Scheme. (CITE S7 website) 
+S4M-CSP runs in the Max/MSP musical programming environment using the 
+open-source Scheme for Max extension. 
+The authors are using S4M-CSP to create both training
 exercises and algorithmically generated material for interactive electro-acoustic music.
 
-Of note is that the solver is implemented entirely in high-level Scheme, using a brute-force
-backtracking search. While this is computationally inefficient compared to the possibilities of optimized
-contraint solvers CITE SOMETHING, this has the advantage that constraints themselves can be
-expressed as simple and highly-readable Scheme functions, providing the advantages of constraint-based 
-systems to users with no specialized mathematical, and limited computer science, background. 
-As these are specified in uncompiled text code and run directly in the Scheme for Max interpreter in 
-the Max interactive environment, the (brave) user can even update constraints and
-domains dynamically in real time. 
+Of note is that the solver is implemented entirely in Scheme, a general-purpose language, 
+using a recursively implemented backtracking, depth-first search algorithm.
+While computationally expensive compared to optimized
+contraint solvers, this approach has the distinct advantage that constraints are expressed 
+as simple highly-readable Scheme functions, which enables them even to be updated in real time.
+We feel the project thus has merit in putting musical constraint programming in the hands of 
+users with no specialized mathematical (and limited computer science), backgrounds.
+As noted by Anders in the Oxford Companion to Algorithmic Music, this trade-off of 
+performance for accessibility and flexibillity is one that is appropriate to the general needs of 
+composers and musical programmers focused on creating artistic works. 
+While performance limitations may constrain what kinds of problems can be solved this way,
+the composer-programmer and educator-programmer will use the tool productively within the 
+range of problems it solves, while they are unlikely to use an optimized system relying on
+specialized mathematical or logical notation at all.
 
-Additionally, the implmentation described includes a recursively-generated record of all paths
-previously taken, enabling the system to use randomly (or weighted randomly) chosen paths, producing
-a different solution on each run, where the potential solutions are many.
-
-The results suggest that on modern computers, the use of even simplistic constraint solvers implemented
-in user-friendly formats can be a usable and user-friendly way of solving rules-based symbolic musical
-problems for both pedagogical and compositional purposes, and that this can provide valuable tools for
-pedagogues, composers, and performers. 
+Our results thus far demonstrate that, on modern computers, the use of classical backtracking for a 
+domain specific solver implemented in a general purpose language
+can provide a usable and user-friendly tool for rules-based symbolic musical
+problems, for both pedagogical and compositional purposes, and that this can provide value to
+pedagogues, composers, and other computer music creators. 
 
 \section{Related Work }
 \label{sec:intro}
@@ -159,36 +166,38 @@ pedagogues, composers, and performers.
 The use of constraint programming for solving music composition problems (i.e., computationally generating 
 material that obeys defined rules) has an extensive and long history, dating as far back as the 1950's with
 Hiller and Isaacson's landmark composition, Illiac Suite (1957). The compositional approach
-to the Illiac Suite was one of "generate and test", in which separate algorithms were used
-to generate material and to filter it for acceptability by testing against programmatic constraints.
+for the Illiac Suite was one of "generate and test", in which separate algorithms were used
+to generate material and then to subsequently filter it for acceptability by testing against 
+programmatic constraints.
 (Nierhaus, 2009)
 
-Gecode, one of the major general constraint satisfaction programming platforms, has been in active development
-since the early 2000s and is used in musical contexts such as constraint generated harmonic progressions,
-for example in Sprockeels' "Harmonizer Project" (Sprockeels, 2025)
+Gecode, one of the major general constraint satisfaction programming platforms, has been in 
+active development since the early 2000s and is used in musical contexts such as constraint 
+generated harmonic progressions, for example in Sprockeels' "Harmonizer Project" (Sprockeels, 2025).
 
-More related to the work in question, Lisp as a language has a rich history in musical constraint programming. 
+More related to the work in question, Lisp in particular has a rich history in musical constraint programming. 
 For example, the PMC library, part of the PWGL computer-assisted-composition
-framework  allows composers to define constraints in Common Lisp. (Sandred, 2010).
-This solver is
-is also available in the OpenMusic platform as the library OMCS, and, like S4M-CPS,
-finds solution through a backtracking search. (Anders, 2018)
+framework, allows composers to define constraints in Common Lisp. (Sandred, 2010).
+This solver is is also available in the OpenMusic platform as the library OMCS, 
+and, like S4M-CPS, finds solution through a backtracking search (Anders, 2018).
+
 Gelisp is similarly a system for defining constraints in Lisp. Gelisp is implemented as a
 a Lisp wrapper around the C++ Gecode library, and also provides integrations for the OpenMusic
-graphical composition platform (Toro, 2015)
+graphical composition platform (Toro, 2015).
 
 Musical constraint systems are also used outside of computer-assisted-composition in various
-ways, including computational musicology (the study of music using computers).
-In his writings on his ground-breaking algorithmic composition system EMI (Experiments in Musical Intelligence)
-David Cope discusses programmatically constraining material chosen randomnly form corpus databases
-to discover the defining features of musical style.
+ways, including computational musicology (i.e., the study of music itself, using computers).
+In his writings on his ground-breaking algorithmic composition system EMI 
+(Experiments in Musical Intelligence) David Cope discusses programmatically constraining 
+material chosen randomnly form corpus databases
+to discover the defining features of musical style. (CITE COPE)
 Duane and Pardo (Duane, 2009) describe using constraint optimization techniques as part 
 of computational system for auditory stream analysis from MIDI data of Classical, Baroque,
 and Romantic music. 
 In his widely acclaimed theory text, "The Geometry of Music", Dmitri Tymoczko describes using 
 constrained, randomly generated melodic and harmonic pitches
 to analyse which specific musical rules or tendencies contribute to a listener's perception 
-of style and consistency.  (Tymozcko, 2011).
+of style and consistency (Tymozcko, 2011).
 
 In music education, constraint programming techniques have been used to generate exercices
 that are guaranteed to follow particular rules or stay within particular bounds, or to
@@ -196,14 +205,14 @@ create sequences of exercices at appropriate difficulty levels for optimal learn
 Examples include generation of rhythmic reading exercises (Percival, 2008), (Kuuskankare, 2013)
 intonation exercises (Percival, theses), and curriculum planning (holland, 2013). 
 
-The use of constraints for computer assisted composition is supported in the Max environment through the BACH
-library. ( BACH provides a suite graphical programming objects for algorithmic composition,
-inspired in part by OpenMusic.
-This includes support for manipulating Lisp-like data structures (lllls, or "Lisp-like linked lists).
-(Agostini, 2012)
+Turning to the Max environment, the use of constraints for computer assisted composition 
+is supported in Max through the BACH Project
+BACH provides a suite graphical programming objects for algorithmic composition,
+inspired in part by OpenMusic, and including support for manipulating Lisp-like data structures 
+(lllls, or "Lisp-like linked lists) (Agostini, 2012)
 However, the BACH library does not provide any built in Lisp interpreter, thus while users can 
-use constraints in ways similar to a Lisp environment, they cannot code in a Lisp directly
-to make new constraints.
+use constraints in ways similar to a Lisp environment, they cannot program constraints directly
+in a Lisp dialect. 
 
 
 \section{Language and Platform}
@@ -396,46 +405,42 @@ Fill me given how much space we have after all the other shit
 
 \subsection{Propagation}
 
-The current implementation is a backtracking brute-force solver and does not
-include any forward propagation of constraints. 
-When constraints fail at a given depth, the solver will next try alternative domain values,
-and if all fail, it will backtrack up a depth. There is no implementation of pruning domain values
+The current implementation is a classical, backtracking, depth-first solver.
+It does not include any implementation of forward propagation, 
+and there is not yet any implementation of pruning domain values
 during a solve or of undoing a prune when backtracking up a level. 
 
-In order to track the solve progress, allowing influencing the next attempted path,
-the implementation includes a tree representation of all paths that have been explored,
+As discussed previously, the solver creates a persistent tree representation of all paths that have been explored,
 with double-linked nodes such that paths from a node can be traversed up or down the tree. 
 This structure could be also be used to store domain changes from visiting and assigning a node, 
 which could be used to undo domain pruning when backtracking. 
 However, at present the nodes-visited tree is used solely to track which paths have
 been taken so that random choices can be made at each node without revisiting previous paths.
 
-TODO: do we show the tree walker?
-
 \subsection{Variable Selection}
-The implementation of choosing the next variable to be solved (i.e., the next pitch in the solution
-sequence) is naive;
-it simply iterates through the note list in order. Allowing solving order
-to be indicated or optimized could potentially reduce the number of paths explored as well
-as provide for potentially interesting compositional algorithms. For example, in 
+The current version chooses the next variable to be solved (i.e., the next pitch in the solution
+sequence) by iterating through the list of variables (i.e., solution pitches) linearly. 
+Allowing the user to choose the order or variables solved
+could potentially be used to reduce the number of paths explored as well
+as provide interesting compositional algorithms. For example, in 
 bass line implementation, one could work either forward or backward from the target.
 
 \subsection{Value Selection}
-Similar to variable selection, value selection at present simply chooses random potential values
-from the domain list as it is set at solver initialization time.
-
-
-
+Similar to variable selection, value selection at present chooses random potential values
+from the domain list using a random urn implementation. While this works
+to ensure the solver creates new pitches sequences on each solve 
+(i.e., it does not simply return the same first passing sequence)
+there is not yet a facility for influencing the random choice.
 
 \section{Future Work}
 There are a number of areas of future work I intend to explore.
 
 \subsection{Stochastic Heuristics}
-When choosing the next candidate domain value, the current implementation either
-takes the next one from the list of domain values or a random value. The addition of preference constraints
-to help choose candidates in more musically meaningful ways would be a fruitful 
-area to explore. This could potentially allow one to implement preference rules
-such as *"if the last three notes have ascended, increase the probability of 
+The addition of preference constraints or other mechanisms to influence
+the random choice from candidate domain values 
+in more deterministic (and thus, potentially more musically meaningful) ways would be a fruitful 
+area to explore. This could potentially allow a user to implement preference rules
+such as "if the last three notes have ascended, increase the probability of 
 the next note descending"*. These rules could perhaps be implemented using
 a higher-order Markov chain to enable some higher-level musical variety.
 
@@ -443,68 +448,67 @@ a higher-order Markov chain to enable some higher-level musical variety.
 Given the domain-specific constraint implementation, it would be reasonably straightforward
 to add a special type of constraint intended to prune variable domains prior to solving,
 based on musical rules or heuristics, which could speed up execution significantly.
-For example, a user might specify that all notes up to the final target note 
-should be diatonic to the tonic key. Such a constraint could
+For example, a user might wish to specify that all notes up to the final target note 
+must be diatonic to the tonic key. Such a constraint could
 thus prune the domain for notes 1 to 3 to be diatonic only, cutting the number of 
-branches to be explored down significantly.
-
-\subsection{Constraint Propagation}
-Constraint propagation will significantly speed up execution, though execution time
-is already fast enough to solve lines of quarter notes as they play given a domain space
-of two or three octave. This could be an issue, however, for solving longer lines with a wider 
-range.
+branches to be explored down significantly. 
+In the case that a dead-end is reached, pruning could be rewound if
+a record of the pruning action were stored as data on the tree structure
+storing the traversed paths.
 
 \subsection{Assignment}
-Notes are assigned one at a time, but this is not an ideal heuristic for simulating
+Notes are assigned one at a time, but this is not always an appropriate heuristic for simulating
 how musicians think. For example, when playing a bass line, a musician is likely
-to think, *"I can walk stepwise or arpeggiate"*, determining which based on available range
-and what they have recently done and evaluating whether several candidates will work 
+to think, "I can walk stepwise or arpeggiate", determining which to do based on available range
+and what they have recently done, and consequently evaluating whether several candidates will work 
 at one time. The solver could draw from a bank of patterns to try various compound
-selections first rather than brute force traversal through all paths of the state space.
+selections first rather than a note by note traversal through all paths of the state space.
+
+Building on the above, a further refinement would be to allow users to have 
+a database of idiomatic patterns, with a group assignment using a selection taken
+from the database as a heuristic for a multiple assignent. 
+This store of potential patterns could in turn be generated by non-realtime running
+of the solver.
 
 \subsection{Constraint Macro Framework}
-While implementing the constraints as boolean predicates is straightforward, it does
+While implementing the constraints as boolean predicates in Scheme is straightforward, it does
 require the developer to be somewhat familiar with the implementation details of
 the solver. A higher-level framework built on Lisp macros could be implemented
 to reduce the amount of code necessary and to reduce how much must be understood
 by the users making constraints.
 
-\subsection{Solver Instantiation}
-Creating, initializing, and setting up a solver with constraints and context variables
-is currently a fairly verbose affair. This is an area where Lisp macros could
-again allow a much more succint and readable API for users of the solver.
+\section{Outcomes and Conclusion}
+While much work remains to be done to make S4M-CSP into a library that would compete
+with offerings such as PWC or OpenMusic, the initial implementation succeeds in 
+meeting its goals.
 
-\section{Conclusion}
-As a first attempt at solving musical line building as a constraint satisfaction problem
-with a custom solver,
-I feel the project has been a success. Execution is fast enough to allow
-generating a bass line in perpetuity. While still somewhat verbose, specifying
-rules in a similar way to how one thinks of musical constraints works well. 
-For example, one can read the set of constraint registrations to make an
-arpeggiated bass line and understand right away what the outcome is intended to be.
+In our test runs, the solver is able to produce material fast enough to generate 
+material in perpetuity, depending on tempo, size of the domain, and degree of constraining.
+For example, we can generate idiomatic jazz bass lines as fast as a bass player
+would play them, given a standard chord progression. This alone makes the tool
+a potent tool for creating exercise material for ear training, for example.
 
-Breaking up the constraints into (solved) notes and (pre-assigned) context variables is 
-also successful and makes domain specific problems much easier to reason about (and
-to design constraints for) than would be the case with purely numerical variables that
-make no destinction between musical context and the line. It is also more reflective of
-how improvisers and composers think of the problem in homophonic improvised music: 
-the chord progression and key are predetermined, while the notes to realize it are improvised,
-choosing from harmonic constraints that determine the genre of music. For example,
-a style-imitation program designed this way would use different constraints for
-different eras of jazz music as the melodic and harmonic vocabulary changed over time.
+By running in Scheme for Max, where Scheme code can be updated over the network
+in real-time while pieces play, S4M-CSP also provides interesting avenues
+for interactive composition that would be difficult to replicate on other platforms.
+For example, we have tested changing the bank of active constraints in response
+to user activiy, as well as changing the already assigned context variables 
+(such as the chord progression against which a sequence is generated).
+An active area of exploration of ours is how best to use this in a piece
+of music where the constraint system itself can react to the audio from an
+acoustic musician.
 
-The project runs well in Scheme for Max and, I believe, has the potential to be
-a valuable contribution to the available offerings for computer-assisted composition 
-in the Max environment, such as the Bach project. I intend to continue to work
-on the project, with the intent of publishing more complete versions as part
-of the Scheme for Max project.
+For creating scores or sequences used for educational purposes, the current implementation
+succeeds at generating pedagogic material that is guaranteed to be correct,
+including correct interval spellings. We believe this feature to have signifcant
+potential for educators using Max to make training exercises and is a gap
+in many other platforms that are focused on solve speed (i.e. by evaluating
+all notes as MIDI note numbers to reduce domain space).
 
-
-
-
-  
-
-
+Finally, while we are still in the process of acceptance testing with new users,
+we believe S4M-CSP is better accessible to most composer-programmers compared other 
+offerings that use textually programmed constraints, by virtue of the simplicity
+of the constraint implementations, the theory library, and Scheme itself.
 
 
 

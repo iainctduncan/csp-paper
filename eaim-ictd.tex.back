@@ -1,0 +1,548 @@
+\documentclass[pmlr]{jmlr}% new name PMLR (Proceedings of Machine Learning Research)
+% Template adapted for the Workshop on Emerging AI Technologies for Music, as part of AAAI
+% https://amaai-lab.github.io/EAIM2027/
+
+ % The following packages will be automatically loaded:
+ % amsmath, amssymb, natbib, graphicx, url, algorithm2e
+
+ %\usepackage{rotating}% for sideways figures and tables
+\usepackage{longtable}% for long tables
+
+ % The booktabs package is used by this sample document
+ % (it provides \toprule, \midrule and \bottomrule).
+ % Remove the next line if you don't require it.
+\usepackage{booktabs}
+ % The siunitx package is used by this sample document
+ % to align numbers in a column by their decimal point.
+ % Remove the next line if you don't require it.
+\usepackage{siunitx} % newer version % newer version
+ %\usepackage{siunitx}
+
+% my code listings
+\usepackage{listings}
+\lstset{language=lisp,
+ columns=flexible,
+ breaklines=true,
+ breakatwhitespace=true,
+ identifierstyle=\ttfamily,
+ keywordstyle=\ttfamily,
+ basicstyle=\footnotesize\ttfamily,
+ showstringspaces=false,
+}
+
+ % The following command is just for this sample document:
+\newcommand{\cs}[1]{\texttt{\char`\\#1}}
+
+ % Define an unnumbered theorem just for this sample document:
+\theorembodyfont{\upshape}
+\theoremheaderfont{\scshape}
+\theorempostheader{:}
+\theoremsep{\newline}
+\newtheorem*{note}{Note}
+
+ % change the arguments, as appropriate, in the following:
+\jmlrvolume{YYY} % Change this in Camera Ready Version
+\jmlryear{2027}
+\jmlrworkshop{EAIM2027 at AAAI}
+
+\title[Short Title]{Template for EAIM2027\titletag{\thanks{sample footnote}}}
+
+ % Use \Name{Author Name} to specify the name.
+
+ % Spaces are used to separate forenames from the surname so that
+ % the surnames can be picked up for the page header and copyright footer.
+ 
+ % If the surname contains spaces, enclose the surname
+ % in braces, e.g. \Name{John {Smith Jones}} similarly
+ % if the name has a "von" part, e.g \Name{Jane {de Winter}}.
+ % If the first letter in the forenames is a diacritic
+ % enclose the diacritic in braces, e.g. \Name{{\'E}louise Smith}
+
+ % *** Make sure there's no spurious space before \nametag ***
+
+% Author information should be kept anonymous for the double-blind policy. Add in this information for the camera ready version.
+ % Two authors with the same address
+  \author{\Name{Anonymous 1\nametag{\thanks{with a note}}} \Email{abc@sample.com}\and
+   \Name{Anonymous 2} \Email{xyz@sample.com}\\
+   \addr Address}
+
+ % Three or more authors with the same address:
+ % \author{\Name{Author Name1} \Email{an1@sample.com}\\
+ %  \Name{Author Name2} \Email{an2@sample.com}\\
+ %  \Name{Author Name3} \Email{an3@sample.com}\\
+ %  \Name{Author Name4} \Email{an4@sample.com}\\
+ %  \Name{Author Name5} \Email{an5@sample.com}\\
+ %  \Name{Author Name6} \Email{an6@sample.com}\\
+ %  \Name{Author Name7} \Email{an7@sample.com}\\
+ %  \Name{Author Name8} \Email{an8@sample.com}\\
+ %  \Name{Author Name9} \Email{an9@sample.com}\\
+ %  \Name{Author Name10} \Email{an10@sample.com}\\
+ %  \Name{Author Name11} \Email{an11@sample.com}\\
+ %  \Name{Author Name12} \Email{an12@sample.com}\\
+ %  \Name{Author Name13} \Email{an13@sample.com}\\
+ %  \Name{Author Name14} \Email{an14@sample.com}\\
+ %  \addr Address}
+
+
+ % Authors with different addresses:
+ % \author{\Name{Author Name1} \Email{abc@sample.com}\\
+ % \addr Address 1
+ % \AND
+ % \Name{Author Name2} \Email{xyz@sample.com}\\
+ % \addr Address 2
+ %}
+
+\editors{K. Bhandari, S. Zheng, J. Shier, D. Herremans, S. Colton}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This is the abstract for this article.
+\end{abstract}
+\begin{keywords}
+List of keywords
+\end{keywords}
+
+\section{Introduction}
+\label{sec:intro}
+
+
+In the 2020's, machine learning, and in particular deep learning, has inarguably become the dominant paradigm
+for artificial intelligence projects, including in the field of music. 
+However, classical AI techniques, such as expert systems implemented using constraint satisfaction, have 
+characteristics that make them that make them well suited to a variety of musical problems,
+and on modern machines, can be used in soft real time contexts where previously this would have been impractical.
+
+Constraint-based systems have the particular advantage that, while the computation time necessary
+to find a solution may be indeterminate (and long), the solution itself can be guaranteed to meet formally
+specified criteria. For the music teacher or algorithmic composer, this can be a critical feature.
+For example, in the creation of musical training tools, a tool author may wish to specify that the 
+symbolic musical content (perhaps presented as a score or played aloud using standard synthesizers)
+follow specific voice leading rules given a particular chord progression. 
+Or a jazz ear training exercise may use rules to specify that a walking bassline will only use
+specific generative rules, thus ensuring there is no ambiguity as to the underlying chord progression.
+In the case of a pedagogical exercise builder, it is not sufficient that the material generated be almost
+guaranteed to follow the rules specified, as false-positive or false-negatives will be extremely frustrating
+to the student. 
+
+Similarly, a composer exploring unique compositional processes may wish to have stochastically
+generated material follow specific rules, where "close enough" is, in effect, a compositional failure.
+
+We present here S4M-CSP, a domain specific constraint satisfaction problem (CSP) solver and 
+accompanying symbolic music theory library for defining constraints. 
+S4M-CSP is implmented in s7 Scheme Lisp, a Scheme dialect created with the composer-programmer in mind,
+that combines many convenience features of Common Lisp with Scheme. (CITE S7 website) 
+S4M-CSP runs in the Max/MSP musical programming environment using the 
+open-source Scheme for Max extension. 
+The authors are using S4M-CSP to create both training
+exercises and algorithmically generated material for interactive electro-acoustic music.
+
+Of note is that the solver is implemented entirely in Scheme, a general-purpose language, 
+using a recursively implemented backtracking, depth-first search algorithm.
+While computationally expensive compared to optimized
+contraint solvers, this approach has the distinct advantage that constraints are expressed 
+as simple highly-readable Scheme functions, which enables them even to be updated in real time.
+We feel the project thus has merit in putting musical constraint programming in the hands of 
+users with no specialized mathematical (and limited computer science), backgrounds.
+As noted by Anders in the Oxford Companion to Algorithmic Music, this trade-off of 
+performance for accessibility and flexibillity is one that is appropriate to the general needs of 
+composers and musical programmers focused on creating artistic works. 
+While performance limitations may constrain what kinds of problems can be solved this way,
+the composer-programmer and educator-programmer will use the tool productively within the 
+range of problems it solves, while they are unlikely to use an optimized system relying on
+specialized mathematical or logical notation at all.
+
+Our results thus far demonstrate that, on modern computers, the use of classical backtracking for a 
+domain specific solver implemented in a general purpose language
+can provide a usable and user-friendly tool for rules-based symbolic musical
+problems, for both pedagogical and compositional purposes, and that this can provide value to
+pedagogues, composers, and other computer music creators. 
+
+\section{Related Work }
+\label{sec:intro}
+
+The use of constraint programming for solving music composition problems (i.e., computationally generating 
+material that obeys defined rules) has an extensive and long history, dating as far back as the 1950's with
+Hiller and Isaacson's landmark composition, Illiac Suite (1957). The compositional approach
+for the Illiac Suite was one of "generate and test", in which separate algorithms were used
+to generate material and then to subsequently filter it for acceptability by testing against 
+programmatic constraints.
+(Nierhaus, 2009)
+
+Gecode, one of the major general constraint satisfaction programming platforms, has been in 
+active development since the early 2000s and is used in musical contexts such as constraint 
+generated harmonic progressions, for example in Sprockeels' "Harmonizer Project" (Sprockeels, 2025).
+
+More related to the work in question, Lisp in particular has a rich history in musical constraint programming. 
+For example, the PMC library, part of the PWGL computer-assisted-composition
+framework, allows composers to define constraints in Common Lisp. (Sandred, 2010).
+This solver is is also available in the OpenMusic platform as the library OMCS, 
+and, like S4M-CPS, finds solution through a backtracking search (Anders, 2018).
+
+Gelisp is similarly a system for defining constraints in Lisp. Gelisp is implemented as a
+a Lisp wrapper around the C++ Gecode library, and also provides integrations for the OpenMusic
+graphical composition platform (Toro, 2015).
+
+Musical constraint systems are also used outside of computer-assisted-composition in various
+ways, including computational musicology (i.e., the study of music itself, using computers).
+In his writings on his ground-breaking algorithmic composition system EMI 
+(Experiments in Musical Intelligence) David Cope discusses programmatically constraining 
+material chosen randomnly form corpus databases
+to discover the defining features of musical style. (CITE COPE)
+Duane and Pardo (Duane, 2009) describe using constraint optimization techniques as part 
+of computational system for auditory stream analysis from MIDI data of Classical, Baroque,
+and Romantic music. 
+In his widely acclaimed theory text, "The Geometry of Music", Dmitri Tymoczko describes using 
+constrained, randomly generated melodic and harmonic pitches
+to analyse which specific musical rules or tendencies contribute to a listener's perception 
+of style and consistency (Tymozcko, 2011).
+
+In music education, constraint programming techniques have been used to generate exercices
+that are guaranteed to follow particular rules or stay within particular bounds, or to
+create sequences of exercices at appropriate difficulty levels for optimal learning.
+Examples include generation of rhythmic reading exercises (Percival, 2008), (Kuuskankare, 2013)
+intonation exercises (Percival, theses), and curriculum planning (holland, 2013). 
+
+Turning to the Max environment, the use of constraints for computer assisted composition 
+is supported in Max through the BACH Project
+BACH provides a suite graphical programming objects for algorithmic composition,
+inspired in part by OpenMusic, and including support for manipulating Lisp-like data structures 
+(lllls, or "Lisp-like linked lists) (Agostini, 2012)
+However, the BACH library does not provide any built in Lisp interpreter, thus while users can 
+use constraints in ways similar to a Lisp environment, they cannot program constraints directly
+in a Lisp dialect. 
+
+
+\section{Language and Platform}
+
+\subsection{Max}
+S4M-CSP runs on the Max audio/visual low-code programming environment, which was first released over
+30 years ago and is used widely by musicians, composers, programmers, and audio visual artists to create
+music and multimedia works and interactive environments. 
+Max is predominantly a visual programming environment, in which interactive programs (called "patches" in Max parlance)
+are placing visual objects on a canvas and connecting them with virtual wires that pass symbolic messages or blocks 
+of audio samples. However, in addition to the visual paradigm, Max supports textual programming predominantly through an integration
+with JavaScript (i.e., the js object), as well as through code editing for the Gen audio objects, 
+external processes through Node4Max, and Java code. 
+In addition to the built in facilities provided with Max, users may use "externals", third-party objects
+created using the Max SDK and built in C or C++. (CITE Puckette or Zicarelli)
+Various of these also support working in code in Max through
+interfaces with other languages or embedded interpreters. 
+
+
+\subsection{Scheme for Max and Lisp}
+S4M-CSP is a code library for Scheme for Max (S4M), an open-source extension to Max that enables users to
+program Max using s7 Scheme, a Lisp dialect authored by Bill Schoetstadt of CCRMA,  and also used
+in Common Music 3 and the snd audio editor. While the facilities of S4M-CSP could certainly be implemented
+in the built-in JavaScript facilities, S4M was used for several reasons. 
+
+First, as a Lisp, S4M provides first-class support for symbols as a primitive data type, where such symbols
+can be used identically in both Max messages (the graphic boxes in Max for holding and manipulating symbolic sequences),
+and in Scheme code. Lisp symbols are ideal for manipulating music symbols as they can be compared directly,
+rather than requiring string searching and matching. (Both s7 and Max maintain a symbol table for fast 
+lookup and comparison, and symbols may be used as hash-table keys for caching.) In the context of a constraint
+solver, where symbolic predicates may be evaluated hundreds-of-thousands of times per solution pass,
+this balance of user convenience and processing speed is a signficant advantage.
+
+Secondly, unlike the built-in JS object, S4M can be run in either the high- or low-priority Max thread.
+Max provides a high-priority thread (the "scheduler" thread) for handling audio, MIDI messages, and other
+timing critical events, as well as a low-priority thread (the "main" or "GUI" thread) for display, file I/O,
+and on screen events (e.g., clicking and dragging elements). The built in JS object in Max runs only in the
+lower priority thread, making it inappropriate for directly scheduling events, such as one would do 
+when building a sequencer in code. Because S4M can run in both threads, and because Max message syntax
+is Scheme-compatible (very few syntax collisions), using S4M allows one to create a patch where the
+CSP solver runs in the low thread, but as input sent to it from a high-priority S4M instance, and sends
+results to the same or a second high-priority S4M instance for controlling playback. 
+
+Finally, while the initial version of S4M-CSP is a stand-alone library, there is a rich body of related
+work available to users in Lisp dialects, including in s7 itself (e.g., through Common Music 3 code).
+As previously mentioned, there is a significant history of Lisp code in both algorithmic composition
+and computational musicology. While s7 is a Lisp-1, and thus differs from Common Lisp in a variety of ways,
+the author of s7 has made compatability with much of Common Lisp a high priority, including full support
+for Common Lisp facilites such as defmacro, reader macros, keywords, hash-tables, format, and more.
+Thus, while the user need not know or install anything beyond S4M and the S4M-CSP library to use the
+solver, the use of S4M provides users the potential to integrate their work with numerous other Lisp 
+and Lisp related musical libraries and tools, such as Common Music 3, Slippery Chicken, Incudine, 
+and many more.
+
+
+\section{Positioning and Contribution}
+Given the breadth of CSP options for music, one might well ask why one might want to use S4M-CSP
+and what novel contributions the project makes relative to the other available options
+for constraint programming for music.
+
+\subsection{Platform Accessibility}
+First, S4M-CSP is intended to be accessible; it aims to provide the power and flexibility of
+constraing programming to the widest possible range of computer music composer-programmers and
+music educators. Max is arguably the most widely deployed computer music programming platform, 
+by a significant margin, as it is not only used worldwide for audio, music, and visual
+programming, but is shipped with the hugely successful Abelton Live digital audio workstation
+as Max for Live. While users need to install the S4M extension to Max, this is a well-documented
+and trivial step. The authors believe this is significantly more accessible to the average user
+than the competing offerings (e.g., OpenMusic, Patchworks, etc.) which require the user to 
+adopt a specific environment rather than being able to run a solver within an already mainstream
+environment.
+
+\subsection{Ease of Use}
+Second, using S4M-CSP requires less computer science background than many other options. 
+Programming constraints in s7 Scheme with the provided music theory library is very straightforward.
+Scheme is a very minimal language, and as a Lisp 1, it has a simpler syntax for higher order 
+programming than Common Lisp (i.e., there is no second namespace for functions from variables).
+The Scheme for Max project provides beginner tutorials for Scheme and free and open-source
+resources for learning Scheme abound. Additionally, interfacing with the solver from Max
+is simple as one can generate Scheme expressions directly in Max messages, simplifying the 
+process of creating real-time interfaces to the project.
+
+TODO: image of s-exp in a Max patch.
+
+TODO: code of generating a constraint
+
+\subsection{Exensibility}
+Third, both S4M and s7 Scheme are open-source and implemented in ANSI-C.
+Thus, the intrepid user can extend the solver at the language level, implementing
+new s7 predicates in C where performance optimizations warrant this. 
+In fact, one of the major reasons s7 was chosen by the author of Scheme for Max 
+was its simple foreign function interface and the ease with which it can be embedded in C projects.
+(CITE S4M Website)
+
+\subsection{Accurate Music Symbol Support}
+Finally, the S4M-CSP project and its underlying theory library are designed to support
+working in music notation where accuracy of symbol choice is important.
+To this end, S4M-CSP makes no assumptions as to when enharmonic equivalence is considered
+good enough. That is to say, the theory library understands that an augment-fourth
+above a C# is an F##, and that a solution finding a G should not necessarily be
+considered good. While this is not an important consideration in contexts 
+where a user "downsamples" to MIDI note numbers, in a situation where the project
+is used to make training exercises (e.g., harmony, aural skills), this distinction
+is critical and libraries that do not make it are unfit for purpose.
+
+The underlying theory library is implemented such that it correctly determines
+intervals regardless of the number of double sharps and flats, and uses intervals
+up to double-diminished and double-augmented correctly. While this is computationally
+much more expensive than more naive matching, the library uses aggressive caching
+throughout to negate that disadvantage. Music interval calculations are, by definition,
+pure functions; a double-augmented fourth above F is always B#. Thus, trading
+space for time makes sense on modern computers, and the S4M-CSP engine does this
+for interval, chord, and membership functions (i.e. checking whether the third of
+a G major 7 chord is B should always return true).
+
+
+\section{Objective}
+\label{sec:intro}
+
+The high-level goal of S4M-CSP is to enable users of the Max audio/visual 
+programming environment to generate symbolic pitch sequences (i.e., the pitch component of melodies) 
+given a symbolic chord progression and an arbitrary set
+of rules relating the generated symbolic pitches with both the chord progression data and the neighbouring
+symbolic pitches. 
+
+Of note is that the representation of pitches, relationships, and chords is entirely as Lisp symbols,
+such as C\#4, IImin7, dim-5, etc. While MIDI note numbers may be also used (by converting symbols to MIDI note numbers),
+the project includes a music theory library enabling easy symbolic manipulation in terms that are 
+common in Western music theory.  Thus the musically educated user must only know the symbolic 
+conventions used, rather than any details of the underlying implementation. The underlying functions
+accept both pitch classes and pitches, and are implemented to use correct intervallic spelling, including
+arbitrary numbers of sharps or flats. 
+For example, (prf-4 'C4) returns 'F4, (aug-4 'C\#) returns 'F\#\#, (aug-4 'C\#\#4) returns 'C\#\#\#5.
+In order to make building systems with Max possible, all spellings use standard ASCII 
+(i.e., no special unicode symbols are used for accidentals).
+
+\begin{itemize}
+  \item Upper case letters specify a pitch letter in letters space
+  \item Upper case Roman numerals incidate functional roots
+  \item Lower case b and the \# sign indicate accidentals
+  \item double sharps or flats used multiple sequential 'b' and '#' characters.
+\end{itemize}
+
+Rules predicates are specified as Scheme callables (functions or macros) that have a set
+signature providing access to the solver's context variables and to the solver object
+itself. The music theory library provides lower level functions for making predicates 
+out of intervals, chord spellings, and Roman numeral realizations. 
+
+\subsection{Test Application}
+The test application for S4M-CSP is a program that builds idiomatic jazz bass lines
+as lists of pitch class symbols. The solver expects the following inputs (i.e., context variables)
+
+\begin{itemize}
+  \item A Roman numeral progression such as '(IImin7 V7 Imaj7), '(IV7 V7 I7), etc.
+  \item A key in which the progression is rendered such 'F, 'G, etc.
+  \item A domain of possible solution values: '(C1 'C#1 'Db1 ...)
+  \item A list of constraint predicates as Scheme functions
+\end{itemize}
+
+The solver will attempt all combinatorial paths through the set of domain values.
+
+\subsection{Specific Requirements}
+Specific requirements of the system and of the test application are the following:
+
+\begin{itemize}
+  \item Constraints are specified in Scheme as boolean predicate functions.
+  \item Constraints may be either local (constraining a single pitch solution against other context variables)
+     or global (constraining between solution pitches, such as all-diff). 
+  \item Multiple runs of the solver will create different solution sequences, i.e., the is not looking for the first or best solution, but rather a stochastically chosen acceptable solution.
+  \item The solver will find a solution, if one exists, or return false if no solution is possible.
+  \item Solutions are returned as a Lisp list of pitch-class symbols, such as '(C4 Eb4 Bb3 G3)
+  \item The domain over which the solver runs may be set dynamically prior to each pass, allowing the
+        user to constrain the possible pitch values by both range and key
+\end{itemize}
+
+Additionally, a goal of the project is to explore whether, on modern computers, this approach
+to generating pitch sequences can be practically used in a soft-real time context, such as
+generating an idiomatic bass line that plays forever. To this end,
+the solver accepts a starting and ending pitch class for each round of solving, used 
+for targeting a note, and the underlying music theory library uses hash-table caches
+of every harmonic calculation. 
+
+
+\section{Implementation}
+
+Fill me given how much space we have after all the other shit
+
+\section{Limitations}
+
+
+\subsection{Propagation}
+
+The current implementation is a classical, backtracking, depth-first solver.
+It does not include any implementation of forward propagation, 
+and there is not yet any implementation of pruning domain values
+during a solve or of undoing a prune when backtracking up a level. 
+
+As discussed previously, the solver creates a persistent tree representation of all paths that have been explored,
+with double-linked nodes such that paths from a node can be traversed up or down the tree. 
+This structure could be also be used to store domain changes from visiting and assigning a node, 
+which could be used to undo domain pruning when backtracking. 
+However, at present the nodes-visited tree is used solely to track which paths have
+been taken so that random choices can be made at each node without revisiting previous paths.
+
+\subsection{Variable Selection}
+The current version chooses the next variable to be solved (i.e., the next pitch in the solution
+sequence) by iterating through the list of variables (i.e., solution pitches) linearly. 
+Allowing the user to choose the order or variables solved
+could potentially be used to reduce the number of paths explored as well
+as provide interesting compositional algorithms. For example, in 
+bass line implementation, one could work either forward or backward from the target.
+
+\subsection{Value Selection}
+Similar to variable selection, value selection at present chooses random potential values
+from the domain list using a random urn implementation. While this works
+to ensure the solver creates new pitches sequences on each solve 
+(i.e., it does not simply return the same first passing sequence)
+there is not yet a facility for influencing the random choice.
+
+\section{Future Work}
+There are a number of areas of future work I intend to explore.
+
+\subsection{Stochastic Heuristics}
+The addition of preference constraints or other mechanisms to influence
+the random choice from candidate domain values 
+in more deterministic (and thus, potentially more musically meaningful) ways would be a fruitful 
+area to explore. This could potentially allow a user to implement preference rules
+such as "if the last three notes have ascended, increase the probability of 
+the next note descending"*. These rules could perhaps be implemented using
+a higher-order Markov chain to enable some higher-level musical variety.
+
+\subsection{Advanced Pruning}
+Given the domain-specific constraint implementation, it would be reasonably straightforward
+to add a special type of constraint intended to prune variable domains prior to solving,
+based on musical rules or heuristics, which could speed up execution significantly.
+For example, a user might wish to specify that all notes up to the final target note 
+must be diatonic to the tonic key. Such a constraint could
+thus prune the domain for notes 1 to 3 to be diatonic only, cutting the number of 
+branches to be explored down significantly. 
+In the case that a dead-end is reached, pruning could be rewound if
+a record of the pruning action were stored as data on the tree structure
+storing the traversed paths.
+
+\subsection{Assignment}
+Notes are assigned one at a time, but this is not always an appropriate heuristic for simulating
+how musicians think. For example, when playing a bass line, a musician is likely
+to think, "I can walk stepwise or arpeggiate", determining which to do based on available range
+and what they have recently done, and consequently evaluating whether several candidates will work 
+at one time. The solver could draw from a bank of patterns to try various compound
+selections first rather than a note by note traversal through all paths of the state space.
+
+Building on the above, a further refinement would be to allow users to have 
+a database of idiomatic patterns, with a group assignment using a selection taken
+from the database as a heuristic for a multiple assignent. 
+This store of potential patterns could in turn be generated by non-realtime running
+of the solver.
+
+\subsection{Constraint Macro Framework}
+While implementing the constraints as boolean predicates in Scheme is straightforward, it does
+require the developer to be somewhat familiar with the implementation details of
+the solver. A higher-level framework built on Lisp macros could be implemented
+to reduce the amount of code necessary and to reduce how much must be understood
+by the users making constraints.
+
+\section{Outcomes and Conclusion}
+While much work remains to be done to make S4M-CSP into a library that would compete
+with offerings such as PWC or OpenMusic, the initial implementation succeeds in 
+meeting its goals.
+
+In our test runs, the solver is able to produce material fast enough to generate 
+material in perpetuity, depending on tempo, size of the domain, and degree of constraining.
+For example, we can generate idiomatic jazz bass lines as fast as a bass player
+would play them, given a standard chord progression. This alone makes the tool
+a potent tool for creating exercise material for ear training, for example.
+
+By running in Scheme for Max, where Scheme code can be updated over the network
+in real-time while pieces play, S4M-CSP also provides interesting avenues
+for interactive composition that would be difficult to replicate on other platforms.
+For example, we have tested changing the bank of active constraints in response
+to user activiy, as well as changing the already assigned context variables 
+(such as the chord progression against which a sequence is generated).
+An active area of exploration of ours is how best to use this in a piece
+of music where the constraint system itself can react to the audio from an
+acoustic musician.
+
+For creating scores or sequences used for educational purposes, the current implementation
+succeeds at generating pedagogic material that is guaranteed to be correct,
+including correct interval spellings. We believe this feature to have signifcant
+potential for educators using Max to make training exercises and is a gap
+in many other platforms that are focused on solve speed (i.e. by evaluating
+all notes as MIDI note numbers to reduce domain space).
+
+Finally, while we are still in the process of acceptance testing with new users,
+we believe S4M-CSP is better accessible to most composer-programmers compared other 
+offerings that use textually programmed constraints, by virtue of the simplicity
+of the constraint implementations, the theory library, and Scheme itself.
+
+
+
+\section{Citations and Bibliography}
+\label{sec:cite}
+
+The \textsf{jmlr} class automatically loads \textsf{natbib}.
+This sample file has the citations defined in the accompanying
+BibTeX file \texttt{eaim.bib}. For a parenthetical
+citation use \verb|\citep|. For example
+\citep{guyon-elisseeff-03}. For a textual citation use
+\verb|\citet|. For example \citet{guyon2007causalreport}.
+Both commands may take a comma-separated list, for example
+\citet{guyon-elisseeff-03,guyon2007causalreport}.
+
+These commands have optional arguments and have a starred
+version. See the \textsf{natbib} documentation for further
+details.\footnote{Either \texttt{texdoc natbib} or
+\url{http://www.ctan.org/pkg/natbib}}
+
+The bibliography is displayed using \verb|\bibliography|.
+
+\acks{Acknowledgements go here.}
+
+\bibliography{eaim}
+
+\appendix
+
+\section{First Appendix}\label{apd:first}
+
+This is the first appendix.
+
+\section{Second Appendix}\label{apd:second}
+
+This is the second appendix.
+
+\end{document}

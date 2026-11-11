@@ -1,0 +1,8 @@
+Additionally, the implmentation described includes a recursively-generated record of all paths
+previously taken, enabling the system to use randomly (or weighted randomly) chosen paths, producing
+a different solution on each run, where the potential solutions are many.
+
+As these are specified in uncompiled text code and run directly in the Scheme for Max interpreter in 
+the Max interactive environment, the (brave) user can even update constraints and
+domains dynamically in real time. 
+
