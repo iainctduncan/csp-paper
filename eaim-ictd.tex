@@ -393,14 +393,14 @@ signature providing access to the solver's context variables and to the solver o
 itself. The music theory library provides lower level functions for making predicates 
 out of intervals, chord spellings, and Roman numeral realizations. 
 Constraints may be either local (constraining a single pitch solution against other context variables)
-or global (constraining between solution pitches, such as all-diff). 
+or global (constraining between solution pitches, such as the all-diff constraint). 
 
 The domain over which the solver runs may be set dynamically prior to each pass, allowing the
 user to constrain the possible pitch values by both range and key.
 Solutions are returned as lists of pitch symbols. 
 The solver will attempt all combinatorial paths through the set of domain values, returning
 false if no good path is found.  
-Multiple runs of the solver (with the same context variable assignments) will create different
+Multiple runs of the solver (with the same context of variable assignments) will create different
 solution sequences, i.e., the solver is not merely returning the first solution, or looking
 for a best solution, but rather a stochastically chosen acceptable solution.
 
