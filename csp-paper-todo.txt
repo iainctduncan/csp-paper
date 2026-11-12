@@ -1,0 +1,20 @@
+Add s7 site citation to intro
+add Anders citation to intro
+Bill's name
+
+fix all the quotes
+
+figure of Max patch
+figure of sexp in patch
+code of a constraint
+
+bold the symbol examples
+
+sample predicate line 362
+
+Do the author preambble shit
+
+Write implementation details
+
+Abstract,
+keywords 

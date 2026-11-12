@@ -236,10 +236,16 @@ created using the Max SDK and built in C or C++ \citep{zicarelli2002learned,puck
 Various of these also support working in code in Max through
 interfaces with other languages or embedded interpreters. 
 
+\begin{figure}[patch-1]
+\centering
+\includegraphics[width=0.5\columnwidth]{sample-patch.png}
+\caption{A sample Max patch using Scheme for Max \label{fig:patch-1}}
+\end{figure}
+
 
 \subsection{Scheme for Max and Lisp}
 S4M-CSP is a code library for Scheme for Max (S4M), an open-source extension to Max that enables users to
-program Max using s7 Scheme, a Lisp dialect authored by Bill Schoetstadt of CCRMA,  and also used
+program Max using s7 Scheme, a Lisp dialect authored by Bill Schottstaedt of CCRMA,  and also used
 in Common Music 3 and the snd audio editor. While the facilities of S4M-CSP could certainly be implemented
 in the built-in JavaScript facilities, S4M was used for several reasons. 
 
@@ -299,7 +305,21 @@ resources for learning Scheme abound. Additionally, interfacing with the solver 
 is simple, as one can generate Scheme expressions directly in Max messages, simplifying the 
 process of creating real-time interfaces to the project.
 
-TODO: image of s-exp in a Max patch.
+
+%\begin{figure}[sexp]
+% % Caption and label go in the first argument and the figure contents
+% % go in the second argument
+%\floatconts
+%  {fig:image}
+%  {\caption{S-Expression Building in a Max Patch}}
+%  {\includegraphics[width=0.5\linewidth]{vel-offset-patch.png}}
+%\end{figure}
+
+\begin{figure}[patch-2]
+\centering
+\includegraphics[width=0.6\columnwidth]{sample-patch-2.png}
+\caption{Building an s-expression in a Max patch with a keyboard \label{fig:patch-2}}
+\end{figure}
 
 
 \subsection{Exensibility}
@@ -511,7 +531,7 @@ which could be used to undo domain pruning when backtracking.
 However, at present the paths-visited tree is used solely to track which paths have
 been taken so that random choices can be made at each node without revisiting previous paths.
 
-\subsection{Variable Selection}
+\subsection{Variable and Value Selection}
 The current version chooses the next variable to be solved (i.e., the next pitch in the solution
 sequence) by iterating through the list of variables (i.e., solution pitches) linearly. 
 Allowing the user to choose the order of variables solved
@@ -519,7 +539,6 @@ could potentially be used to reduce the number of paths explored, as well
 as enable interesting compositional algorithms. For example, in 
 bass line implementation, one could work either forward or backward from the target.
 
-\subsection{Value Selection}
 Value selection at present chooses random potential values
 from the domain list using a random urn implementation. While this works
 to ensure the solver creates new pitches sequences on each solve 

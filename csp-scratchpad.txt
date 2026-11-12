@@ -6,3 +6,5 @@ As these are specified in uncompiled text code and run directly in the Scheme fo
 the Max interactive environment, the (brave) user can even update constraints and
 domains dynamically in real time. 
 
+TODO:
+What makes it special
