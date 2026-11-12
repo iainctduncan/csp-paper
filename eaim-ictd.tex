@@ -38,7 +38,7 @@
 \jmlryear{2027}
 \jmlrworkshop{EAIM2027 at AAAI}
 
-\title[S4M-CSP]{S4M-CSP: A musical constraint programming tool for Max}
+\title[S4M-CSP]{S4M-CSP: A Musical Constraint Programming Tool for Scheme For Max}
 
  % Use \Name{Author Name} to specify the name.
 
@@ -55,9 +55,9 @@
 
 % Author information should be kept anonymous for the double-blind policy. Add in this information for the camera ready version.
  % Two authors with the same address
-  \author{\Name{Anonymous 1\nametag{}} \Email{abc@sample.com}\and
-   \Name{Anonymous 2} \Email{xyz@sample.com}\\
-   \addr Address}
+  \author{\Name{Iain Duncan\nametag{}} \Email{iduncan@uvic.ca}\and
+   \Name{George Tzanetakis} \Email{gtzan@uvic.ca}\\
+   \addr University of Victoria, BC, Canada}
 
  % Three or more authors with the same address:
  % \author{\Name{Author Name1} \Email{an1@sample.com}\\
@@ -411,7 +411,7 @@ are no more than a perfect fourth from their neighbours.
 We depend on the function get-pitch-domain to set the possible
 domain values prior to call.
 
-\begin{lstlisting}[language=Lisp,label=lst:filter,caption=Global Constraint Definition]
+\begin{lstlisting}[language=Lisp,label=lst:use,]
 (define (add-constraints csp)
   (csp 'add-constraint (note-is? 'C5) '(0) 'start-on-C5)
   (csp 'add-global-constraint (diff? '(0 1)))
@@ -442,7 +442,7 @@ In the listing below we see a simple predicate to check if a note
 is the tonic, which is assumed to be a pre-assigned context variable
 stored in the solver object.
 
-\begin{lstlisting}[language=Lisp,label=lst:filter,caption=A simple local constraint]
+\begin{lstlisting}[language=Lisp,label=lst:local-pred,caption=A simple local constraint]
 (define (is-tonic? csp var val)
   (let* ((tonic (csp 'get-var 'tonic))
          ; get a pitch class such as C from a pitch such as C5
@@ -457,7 +457,7 @@ through the context variables 'root and 'quality and 'tonic.
 How the solver gets its current chord is left to the user, so long as it
 fulfills the contract of supporting the context variables 'root, 'quality, and 'tonic.
 
-\begin{lstlisting}[language=Lisp,label=lst:filter,caption=Local constraint as higher-order function]
+\begin{lstlisting}[language=Lisp,label=lst:higher-pred,caption=Local constraint as higher-order function]
 (define (is-chord-factor? csp var val factor)
   "return true if note pitch class is the factor of the chord"
   (let* ((tonic-pc (csp 'get-var 'tonic))
@@ -481,7 +481,7 @@ Note that it is written such that it will pass until such time
 that all notes in a sequence have been assigned (i.e., not false).
 
 % global constraint implementation
-\begin{lstlisting}[language=Lisp,label=lst:filter,caption=Global Constraint Definition]
+\begin{lstlisting}[language=Lisp,label=lst:global-pred,caption=Global Constraint Definition]
 (define (intv-under? intv)
   "pass if interval between pitches under an interval"
   (lambda (csp notes)
@@ -537,7 +537,7 @@ The addition of preference constraints or other mechanisms to influence
 the random choice from candidate domain values 
 in more deterministic (and thus, potentially more musically meaningful) ways would be a fruitful 
 area to explore. This could potentially allow a user to implement preference rules
-such as \textbf{if the last three notes have ascended, increase the probability of the next note descending}. These rules could perhaps be implemented using
+such as \textit{if the last three notes have ascended, increase the probability of the next note descending}. These rules could perhaps be implemented using
 a higher-order Markov chain to enable some higher-level musical variety.
 
 \subsection{Advanced Pruning}
