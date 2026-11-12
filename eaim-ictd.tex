@@ -247,7 +247,8 @@ interfaces with other languages or embedded interpreters.
 \begin{figure}[t][patch-1]
 \centering
 \includegraphics[width=0.5\columnwidth]{sample-patch.png}
-\caption{A sample Max patch using Scheme for Max \label{fig:patch-1}}
+\caption{A sample Max patch using Scheme for Max
+\label{fig:patch-1}}
 \end{figure}
 
 
@@ -263,9 +264,9 @@ and in Scheme code. Lisp symbols are ideal for manipulating music symbols as the
 rather than requiring string searching and matching. (Both s7 and Max maintain a symbol table for fast 
 lookup and comparison, and symbols may be used as hash-table keys for caching.) In the context of a constraint
 solver, where symbolic predicates may be evaluated hundreds-of-thousands of times per solution pass,
-this balance of user convenience and processing speed is a signficant advantage.
+this balance of user convenience and processing speed is a signficant advantage. Figure ~\ref{fig:patch-1} shows a sample Max patch with S4M. 
 
-Secondly, unlike the built-in JS object, S4M can be run in either the high- or low-priority Max thread.
+Secondly, unlike the built-in JS object, S4M can be executed in either the high- or low-priority Max thread.
 Max provides a high-priority thread (the "scheduler" thread) for handling audio, MIDI messages, and other
 timing critical events, as well as a low-priority thread (the "main" or "GUI" thread) for display, file I/O,
 and on screen events (e.g., clicking and dragging elements). The built in JS object in Max runs only in the
