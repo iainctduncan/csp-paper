@@ -138,7 +138,7 @@ contraint solvers, this approach has the distinct advantage that constraints are
 as readable Scheme functions, which also enables them to be updated in real time.
 We feel the project thus has merit in putting musical constraint programming in the hands of 
 users with no specialized mathematical (and limited computer science), backgrounds.
-As noted by Anders in the Oxford Companion to Algorithmic Music, this trade-off of 
+As noted by Anders in the Oxford Companion to Algorithmic Music \citep{dean2018oxford}, this trade-off of 
 performance for accessibility and flexibillity is one that is appropriate to the general needs of 
 composers and musical programmers focused on creating artistic works. (CITE ANDERS)
 While performance limitations may constrain what kinds of problems can be solved this way,
@@ -146,7 +146,7 @@ the composer-programmer and educator-programmer will use the tool productively w
 range of problems it solves, while they are unlikely to use an optimized system relying on
 specialized mathematical or logical notation at all.
 
-Our results thus far demonstrate that, on modern computers, the use of classical backtracking for a 
+Our results thus far demonstrate that, on modern computers, the use of classic backtracking for a 
 domain specific solver implemented in a general purpose language
 can provide a usable and user-friendly tool for rules-based symbolic musical
 problems, for both pedagogical and compositional purposes, and that this can provide value to
@@ -160,48 +160,49 @@ material that obeys defined rules) has an extensive and long history, dating as 
 Hiller and Isaacson's landmark composition, Illiac Suite (1957). The compositional approach
 for the Illiac Suite was one of "generate and test", in which separate algorithms were used
 to generate material and then to subsequently filter it for acceptability by testing against 
-programmatic constraints \cite{nierhaus2009algorithmic}.
+programmatic constraints \citep{nierhaus2009algorithmic}.
 
 
 Gecode, one of the major general constraint satisfaction programming platforms, has been in 
 active development since the early 2000s and is used in musical contexts such as constraint 
-generated harmonic progressions, for example in Sprockeels' "Harmonizer Project" (Sprockeels, 2025).
+generated harmonic progressions, for example in Sprockeels' "Harmonizer Project" \citep{sprockeels2025towards}.
 
 More related to the work in question, Lisp in particular has a rich history in musical constraint programming. 
 For example, the PMC library, part of the PWGL computer-assisted-composition
-framework, allows composers to define constraints in Common Lisp. (Sandred, 2010).
+framework, allows composers to define constraints in Common Lisp \citep{sandred2010pwmc}.
 This solver is is also available in the OpenMusic platform as the library OMCS, 
-and, like S4M-CPS, finds solution through a backtracking search (Anders, 2018).
+and, like S4M-CPS, finds solution through a backtracking search \citep{dean2018oxford}.
 
 Gelisp is similarly a system for defining constraints in Lisp. Gelisp is implemented as 
 a Lisp wrapper around the C++ Gecode library, and also provides integrations for the OpenMusic
-graphical composition platform (Toro, 2015).
+graphical composition platform \citep{mauricio2015ntccrt}.
 
 Musical constraint systems are also used outside of computer-assisted-composition in various
 ways, including computational musicology (i.e., the study of music itself, using computers).
 In his writings on his ground-breaking algorithmic composition system EMI 
 (Experiments in Musical Intelligence), David Cope discusses programmatically constraining 
 material chosen randomnly form corpus databases
-to establish the defining features of musical style. (CITE COPE)
-Duane and Pardo (Duane, 2009) describe using constraint optimization techniques as part 
+to establish the defining features of musical style \citep{cope1989experiments}. 
+Duane and Pardo \citep{duane2009streaming} describe using constraint optimization techniques as part 
 of computational system for auditory stream analysis from MIDI data of Classical, Baroque,
 and Romantic music. 
 In his widely acclaimed theory text, "The Geometry of Music", Dmitri Tymoczko describes using 
 constrained, randomly generated melodic and harmonic pitches
 to analyse which specific musical rules or tendencies contribute to a listener's perception 
-of style and consistency (Tymozcko, 2011).
+of style and consistency (Tymozcko, 2011). Constraints have also been used to steer probabilistic generation of music using Markov sequences \citep{pachet2011markov}. 
 
 In music education, constraint programming techniques have been used to generate exercices
 that are guaranteed to follow particular rules or stay within particular bounds, or to
 create sequences of exercices at appropriate difficulty levels for optimal learning.
-Examples include generation of rhythmic reading exercises (Percival, 2008), (Kuuskankare, 2013)
-intonation exercises (Percival, theses), and curriculum planning (holland, 2013). 
+Examples include generation of rhythmic reading exercises \citep{percival2008generating},
+\citep{kuuskankare2013rhythm}, intonation exercises \citep{percival2008computer}, and
+curriculum planning \citep{holland2013artificial}. 
 
 Turning to the Max environment, the use of constraints for computer assisted composition 
 is supported in Max through the BACH Project
 BACH provides a suite graphical programming objects for algorithmic composition,
 inspired in part by OpenMusic, and including support for manipulating Lisp-like data structures 
-(lllls, or "Lisp-like linked lists) (Agostini, 2012)
+(lllls, or "Lisp-like linked lists) \citep{agostini2012bach}
 However, the BACH library does not provide any built in Lisp interpreter, thus while users can 
 use constraints in ways similar to a Lisp environment, they cannot program constraints directly
 in a Lisp dialect. 
