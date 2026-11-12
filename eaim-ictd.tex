@@ -408,7 +408,7 @@ are no more than a perfect fourth from their neighbours.
 We depend on the function get-pitch-domain to set the possible
 domain values prior to call.
 
-\begin{lstlisting}[language=Lisp,label=lst:use,]
+\begin{lstlisting}[language=Lisp,label=lst:use,caption=Using the solver]
 (define (add-constraints csp)
   (csp 'add-constraint (note-is? 'C5) '(0) 'start-on-C5)
   (csp 'add-global-constraint (diff? '(0 1)))
