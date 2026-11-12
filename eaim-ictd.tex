@@ -55,7 +55,7 @@
 
 % Author information should be kept anonymous for the double-blind policy. Add in this information for the camera ready version.
  % Two authors with the same address
-  \author{\Name{Anonymous 1\nametag{\thanks{with a note}}} \Email{abc@sample.com}\and
+  \author{\Name{Anonymous 1\nametag{}} \Email{abc@sample.com}\and
    \Name{Anonymous 2} \Email{xyz@sample.com}\\
    \addr Address}
 
@@ -303,7 +303,6 @@ process of creating real-time interfaces to the project.
 
 TODO: image of s-exp in a Max patch.
 
-TODO: code of generating a constraint
 
 \subsection{Exensibility}
 Third, both S4M and s7 Scheme are open-source and implemented in ANSI-C.
@@ -400,6 +399,39 @@ are accessible to the code in the constraints functions.
 
 \section{Implementation}
 
+The solver is implemented as a message-receiving function-object in Scheme.
+To set up for a solve, we must assign any context variables that our
+custom predicates expect, and add constraints for the solve. 
+This is left to the discretion of the user; if no constraints are added,
+the first solution filling slots with values from the domain will pass and be returned.
+In the listing below we see the solver used to create a four note tone-row
+in which we start on C5, no notes are repeated, and pitches are 
+are no more than a perfect fourth from their neighbours.
+We depend on the function get-pitch-domain to set the possible
+domain values prior to call.
+
+\begin{lstlisting}[language=Lisp,label=lst:filter,caption=Global Constraint Definition]
+(define (add-constraints csp)
+  (csp 'add-constraint (note-is? 'C5) '(0) 'start-on-C5)
+  (csp 'add-global-constraint (diff? '(0 1)))
+  (csp 'add-global-constraint (diff? '(2 3)))
+  (csp 'add-global-constraint (diff? '(3 4)))
+  (csp 'add-global-constraint (intv-under? 'prf-4))
+  )
+
+(define (make-tone-row)
+  (let* ((num-notes 4)
+         (pitch-domain (copy (get-pitch-domain)))
+         (csps (make-csp-solver num-notes
+                  (hash-table :note-symbol-domain pitch-domain))))
+    (csps 'init csps (hash-table
+        ; pass in extra vars that the constraints will use here
+        ))
+    (add-constraints csps)
+    (let ((pitch-row (csps 'solve)))
+      pitch-row)))
+\end{lstlisting}
+
 \subsection{Constraint Predicates}
 Contraints are implemented as boolean functions that receive three arguments:
 a reference to the solver that provides indirect access to other state variables
@@ -412,9 +444,17 @@ stored in the solver object.
 \begin{lstlisting}[language=Lisp,label=lst:filter,caption=A simple local constraint]
 (define (is-tonic? csp var val)
   (let* ((tonic (csp 'get-var 'tonic))
-         (val-pitch-class (note->pitch val)))
+         ; get a pitch class such as C from a pitch such as C5
+         (val-pitch-class (pitch->pitch-class val)))
     (eq? tonic val-pitch-class)))
 \end{lstlisting}
+
+We can use higher-order functions to create short hand predicates such as chord-root?, 
+where we use the function is-chord-factor? to return a predicate of the correct 
+signature. It assumes that the solver has a current chord, which can be accessed
+through the context variables 'root and 'quality and 'tonic.
+How the solver gets its current chord is left to the user, so long as it
+fulfills the contract of supporting the context variables 'root, 'quality, and 'tonic.
 
 \begin{lstlisting}[language=Lisp,label=lst:filter,caption=Local constraint as higher-order function]
 (define (is-chord-factor? csp var val factor)
@@ -427,17 +467,17 @@ stored in the solver object.
     (eq val-pitch (chord-pitch-classes factor))))
 
 (define (chord-root? csp var val)
+  "check if a pitches pitch class is the first factor of a chord"
   (is-chord-factor? csp var val 0))
-
 \end{lstlisting}
 
 Global constraints are implemented as callables that accept two arguments:
 a reference to the solver (as with local constraints) and a list of
 all assigned notes, where unassigned notes will have the value false.
-Listing X is an example of a constraint that is ensures
+In the listing below, we see provide a constraint that ensures
 all notes are at or less than a given interval away from their immediate neighbours.
 Note that it is written such that it will pass until such time
-that all notes are assigned (i.e., not false).
+that all notes in a sequence have been assigned (i.e., not false).
 
 % global constraint implementation
 \begin{lstlisting}[language=Lisp,label=lst:filter,caption=Global Constraint Definition]
@@ -455,8 +495,6 @@ that all notes are assigned (i.e., not false).
             (set! pass #f))))        
       pass)))  
 \end{lstlisting}
-
-
 
 
 \section{Limitations}
@@ -570,25 +608,6 @@ we believe S4M-CSP is, compared to other offerings that use textually programmed
 constraints, better accessible to most composer-programmers by virtue of the simplicity
 of the constraint implementations, the theory library, and Scheme itself.
 
-
-\section{Citations and Bibliography}
-\label{sec:cite}
-
-
-\cite{anders2011constraint} 
-
-The \textsf{jmlr} class automatically loads \textsf{natbib}.
-This sample file has the citations defined in the accompanying
-BibTeX file \texttt{eaim.bib}. For a parenthetical
-citation use \verb|\citep|. For example
-\citep{guyon-elisseeff-03}. For a textual citation use
-\verb|\citet|. For example \citet{guyon2007causalreport}.
-Both commands may take a comma-separated list, for example
-\citet{guyon-elisseeff-03,guyon2007causalreport}.
-
-The bibliography is displayed using \verb|\bibliography|.
-
-\acks{Acknowledgements go here.}
 
 \bibliography{eaim}
 
