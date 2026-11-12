@@ -304,15 +304,15 @@ than the competing offerings (e.g., OpenMusic, Patchworks, etc.) which require t
 adopt a specific environment rather than being able to run a solver within an already mainstream
 environment.
 
-\subsection{Ease of Use}
+\subsection{Ease of Use and Extensibility}
 Second, using S4M-CSP requires less computer science background than many other options. 
-Programming constraints in s7 Scheme with the provided music theory library is very straightforward.
+Programming constraints in s7 Scheme with the provided music theory library is straightforward.
 Scheme is a very minimal language, and as a Lisp 1, it has a simpler syntax for higher order 
 programming than Common Lisp (i.e., there is no second namespace for functions from variables).
 The Scheme for Max project provides beginner tutorials for Scheme and free and open-source
 resources for learning Scheme abound. Additionally, interfacing with the solver from Max
 is simple, as one can generate Scheme expressions directly in Max messages, simplifying the 
-process of creating real-time interfaces to the project.
+process of creating real-time interfaces to the project. Figure ~\ref{fig:patch-2} shows graphical keyboard input from Max can be used to create a Scheme expression that can then be passed to the constraint satisfaction program solver. 
 
 
 %\begin{figure}[sexp]
@@ -331,7 +331,7 @@ process of creating real-time interfaces to the project.
 \end{figure}
 
 
-\subsection{Exensibility}
+% \subsection{Exensibility}
 Third, both S4M and s7 Scheme are open-source and implemented in ANSI-C.
 Thus, the intrepid user can extend the solver at the language level, implementing
 new s7 predicates in C where performance optimizations warrant this. 
@@ -339,18 +339,20 @@ In fact, one of the major reasons s7 was chosen by the author of Scheme for Max
 was its simple foreign function interface and the ease with which it can be embedded in C projects \citep{Duncan_Scheme_For_Max}. 
 
 \subsection{Accurate Music Symbol Support}
-Finally, the S4M-CSP project and its underlying theory library are designed to support
-working in music notation in contexts where accuracy of symbol choice is important.
-To this end, S4M-CSP makes no assumptions as to when enharmonic equivalence is considered
-good enough. That is to say, the theory library understands that an augmented-fourth
-above a C\# is an F\#\#, not a G natural, and that a solution finding a G should not necessarily be
-considered good (in some contexts it may, and in others not). 
-While this is not an important consideration in contexts 
-where a user is ultimately only outputting MIDI note numbers, in a situation where the project
-is used to make training exercises (e.g., harmony, aural skills), or create a visual score,
-this distinction is critical and libraries that do not make it are unfit for purpose.
+Finally, the S4M-CSP project and its underlying theory library are
+designed to support working in music notation in contexts where
+accuracy of symbol choice is important.  To this end, S4M-CSP makes no
+assumptions as to when enharmonic equivalence is considered good
+enough. That is to say, the theory library understands that an
+augmented-fourth above a C\# is an F\#\#, not a G natural, and that a
+solution finding a G should not necessarily be considered good (in
+some contexts it may, and in others not).  While this is not an
+important consideration when a user is only generating MIDI note
+numbers, when the solver is used to make training exercises (e.g.,
+harmony, aural skills), or create a visual score, this distinction is
+critical and libraries that do not support it can not be used.
 
-The underlying theory library is implemented such that it correctly determines
+The underlying music theory library implementation correctly determines
 intervals regardless of the number of double sharps and flats, and supports intervals
 up to double-diminished and double-augmented correctly. While this is computationally
 more expensive than more naive matching, the library uses aggressive caching
