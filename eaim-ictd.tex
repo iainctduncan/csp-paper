@@ -91,7 +91,21 @@
 \maketitle
 
 \begin{abstract}
-This is the abstract for this article.
+
+  Constraint-satisfaction approaches have been used in a variety of
+  tasks related to symoblic music generation and processing. In this
+  paper, we present S4M-CSP, a music-specific constraint satisfaction
+  problem (CSP) solver and accompanying symbolic library for defining
+  constraints using music theory terms. S4M-CSP runs in the Max
+  interactive programming environment and is built using the
+  open-source Scheme for Max (S4M) extension. We describe how the
+  solver and associated constraint specification language work. We
+  also discuss the advantages of being able to specify the constraints
+  programmatically and potentially change them in interactively in
+  real-time. The system has been used to create both ear training
+  exercies and algorithmically generated material for interactive
+  electro-acoustic music.
+  
 \end{abstract}
 \begin{keywords}
 constraint programming, Max, Scheme, Scheme for Max, music
@@ -126,7 +140,7 @@ We present here S4M-CSP, a domain-specific constraint satisfaction problem (CSP)
 accompanying symbolic music theory library for defining constraints. 
 S4M-CSP is implmented in s7 Scheme Lisp, a Scheme dialect created with the composer-programmer in mind,
 which combines many convenience features of Common Lisp with Scheme (CITE S7 website). 
-S4M-CSP runs in the Max/MSP musical programming environment using the 
+S4M-CSP runs in the Max musical programming environment using the 
 open-source Scheme for Max extension (CITE ME)
 The authors are using S4M-CSP to create both training
 exercises and algorithmically generated material for interactive electro-acoustic music.
@@ -485,8 +499,7 @@ The addition of preference constraints or other mechanisms to influence
 the random choice from candidate domain values 
 in more deterministic (and thus, potentially more musically meaningful) ways would be a fruitful 
 area to explore. This could potentially allow a user to implement preference rules
-such as \textif{if the last three notes have ascended, increase the probability of 
-the next note descending}. These rules could perhaps be implemented using
+such as \textbf{if the last three notes have ascended, increase the probability of the next note descending}. These rules could perhaps be implemented using
 a higher-order Markov chain to enable some higher-level musical variety.
 
 \subsection{Advanced Pruning}
