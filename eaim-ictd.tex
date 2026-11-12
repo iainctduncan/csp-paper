@@ -55,9 +55,18 @@
 
 % Author information should be kept anonymous for the double-blind policy. Add in this information for the camera ready version.
  % Two authors with the same address
-  \author{\Name{Iain Duncan\nametag{}} \Email{iduncan@uvic.ca}\and
-   \Name{George Tzanetakis} \Email{gtzan@uvic.ca}\\
-   \addr University of Victoria, BC, Canada}
+
+% \author{\Name{Iain Duncan\nametag{}} \Email{iduncan@uvic.ca}\and
+%   \Name{George Tzanetakis} \Email{gtzan@uvic.ca}\\
+%   \addr University of Victoria, BC, Canada}
+
+
+\author{\Name{Author One\nametag{}} \Email{author1@email}\and
+\Name{Author Two} \Email{author2@email}\\
+\addr XXX}
+
+
+
 
  % Three or more authors with the same address:
  % \author{\Name{Author Name1} \Email{an1@sample.com}\\
@@ -92,19 +101,20 @@
 
 \begin{abstract}
 
-  Constraint-satisfaction approaches have been used in a variety of
-  tasks related to symoblic music generation and processing. In this
+  Constraint-satisfaction has been used in a variety of
+  tasks related to symbolic music generation and processing. In this
   paper, we present S4M-CSP, a music-specific constraint satisfaction
-  problem (CSP) solver and accompanying symbolic library for defining
-  constraints using music theory terms. S4M-CSP runs in the Max
-  interactive programming environment and is built using the
+  problem (CSP) solver, and an accompanying symbolic library for
+  defining constraints using music theory terms. S4M-CSP runs in the
+  Max interactive programming environment and is built using the
   open-source Scheme for Max (S4M) extension. We describe how the
   solver and associated constraint specification language work. Having
   the solver written in Scheme enables the specification of
-  constraints programatically and using music theory
-  terminology. Constraints can also be changed dynamically. The system
-  has been used to create ear training exercies and algorithmically
-  generated material for interactive electro-acoustic music.
+  constraints programatically and using music theory terms familiar to
+  composers and musicians. Constraints can also be changed dynamically
+  while the music is generated. The system has been used to create ear
+  training exercies and algorithmically generated material for
+  interactive electro-acoustic music.
   
 \end{abstract}
 \begin{keywords}
@@ -116,17 +126,16 @@ constraint programming, Max, Scheme, Scheme for Max, music
 
 
 In the 2020's, machine learning, and in particular deep learning, has inarguably become the dominant paradigm
-for artificial intelligence projects, including in the field of music. 
-However, classic AI techniques, such as expert systems implemented using constraint satisfaction, have 
+for music AI projects. However, classic symbolic AI techniques, such as expert systems implemented using constraint satisfaction, have 
 characteristics that make them well suited to a variety of musical problems,
 and on modern machines, can be used in soft real time contexts where previously this would have been impractical.
 
-Constraint-based systems have the particular advantage that, while the computation time necessary
+Constraint-based systems have the advantage that, while the computation time necessary
 to find a solution may be indeterminate, the solution itself can be guaranteed to meet formally
 specified criteria. For the music teacher or algorithmic composer, this can be a critical feature.
-For example, in the creation of musical training tools, a tool author may wish to specify that the 
+For example, in the creation of musical training tools, an author may wish to specify that the 
 symbolic musical content (perhaps presented as a score or played aloud using synthesis software)
-follow specific voice leading rules given a particular chord progression. 
+follows specific voice leading rules informed by a particular chord progression. 
 Or a jazz ear training exercise may use rules to specify that a walking bassline will only use
 specific generative rules, thus ensuring there is no ambiguity as to the underlying chord progression.
 In the case of a pedagogical exercise builder, it is not sufficient that the material generated be almost
@@ -134,7 +143,7 @@ guaranteed to follow the rules specified, as false-positive or false-negatives w
 to the student. Similarly, a composer exploring unique compositional processes may wish to have stochastically
 generated material follow specific rules, where close enough is, in effect, a compositional failure.
 
-We present here S4M-CSP, a domain-specific constraint satisfaction problem (CSP) solver and 
+We present here S4M-CSP, a domain-specific constraint satisfaction problem (CSP) solver, and an 
 accompanying symbolic music theory library for defining constraints. 
 S4M-CSP is implmented in s7 Scheme Lisp, a Scheme dialect created with the composer-programmer in mind,
 which combines many convenience features of Common Lisp with Scheme \citep{s7scheme}. 
@@ -143,26 +152,30 @@ open-source Scheme for Max extension \citep{Duncan_Scheme_For_Max}.
 The authors are using S4M-CSP to create both training
 exercises and algorithmically generated material for interactive electro-acoustic music.
 
-Of note is that the solver is implemented entirely in Scheme, a general-purpose language, 
-using a recursively-implemented, backtracking, depth-first search algorithm.
-While computationally expensive compared to optimized
-contraint solvers, this approach has the distinct advantage that constraints are expressed 
-as readable Scheme functions, which also enables them to be updated in real time.
-We feel the project thus has merit in putting musical constraint programming in the hands of 
-users with no specialized mathematical (and limited computer science), backgrounds.
-As noted by Anders in the Oxford Companion to Algorithmic Music \citep{dean2018oxford}, this trade-off of 
-performance for accessibility and flexibillity is one that is appropriate to the general needs of 
-composers and musical programmers focused on creating artistic works. 
-While performance limitations may constrain what kinds of problems can be solved this way,
-the composer-programmer and educator-programmer will use the tool productively within the 
-range of problems it solves, while they are unlikely to use an optimized system relying on
-specialized mathematical or logical notation at all.
+The solver is implemented entirely in Scheme, a
+general-purpose language, using a recursivele backtracking,
+depth-first search algorithm.  While computationally more expensive
+than optimized constraint solvers, this approach has the advantage
+that constraints are expressed as readable Scheme functions, which
+also enables them to be updated in real time. This readability opens
+up musical constraint programming to users with no specialized
+mathematical (and limited computer science), backgrounds. As noted by
+Anders in the Oxford Companion to Algorithmic Music
+\citep{dean2018oxford}, this trade-off of performance for
+accessibility and flexibillity is appropriate for the
+general needs of composers and musical programmers creating
+artistic works. While performance limitations may constrain what kinds
+of problems can be solved, the composer-programmer and
+educator-programmer can use the tool productively within the range of
+problems it solves, while they are unlikely to use an optimized system
+relying on specialized mathematical/logical notation. 
 
-Our results thus far demonstrate that, on modern computers, the use of classic backtracking for a 
-domain specific solver implemented in a general purpose language
-can provide a usable and user-friendly tool for rules-based symbolic musical
-problems, for both pedagogical and compositional purposes, and that this can provide value to
-educators, composers, and other computer music creators. 
+%Our results thus far demonstrate that, on modern computers, the use of
+%classic backtracking for a domain specific solver implemented in a
+%general purpose language can provide a usable and user-friendly tool
+%for rules-based symbolic musical problems, for both pedagogical and
+%compositional purposes, and that this can provide value to educators,
+%composers, and other computer music creators.
 
 \section{Related Work }
 \label{sec:intro}
@@ -172,20 +185,15 @@ material that obeys defined rules) has an extensive and long history, dating as 
 Hiller and Isaacson's landmark composition, Illiac Suite (1957). The compositional approach
 for the Illiac Suite was one of "generate and test", in which separate algorithms were used
 to generate material and then to subsequently filter it for acceptability by testing against 
-programmatic constraints \citep{nierhaus2009algorithmic}.
-
-
-Gecode, one of the major general constraint satisfaction programming platforms, has been in 
+programmatic constraints \citep{nierhaus2009algorithmic}. Gecode, one of the major general constraint satisfaction programming platforms, has been in 
 active development since the early 2000s and is used in musical contexts such as constraint 
 generated harmonic progressions, for example in Sprockeels' "Harmonizer Project" \citep{sprockeels2025towards}.
 
-More related to the work in question, Lisp in particular has a rich history in musical constraint programming. 
-For example, the PMC library, part of the PWGL computer-assisted-composition
+More related our work, Lisp in particular has a rich history in musical constraint programming. 
+For example, the PMC library, part of the PWGL computer-assisted composition
 framework, allows composers to define constraints in Common Lisp \citep{sandred2010pwmc}.
 This solver is is also available in the OpenMusic platform as the library OMCS, 
-and, like S4M-CPS, finds solution through a backtracking search \citep{dean2018oxford}.
-
-Gelisp is similarly a system for defining constraints in Lisp. Gelisp is implemented as 
+and, like S4M-CPS, finds solution through a backtracking search \citep{dean2018oxford}. Gelisp is similarly a system for defining constraints in Lisp. Gelisp is implemented as 
 a Lisp wrapper around the C++ Gecode library, and also provides integrations for the OpenMusic
 graphical composition platform \citep{mauricio2015ntccrt}.
 
@@ -203,7 +211,7 @@ constrained, randomly generated melodic and harmonic pitches
 to analyse which specific musical rules or tendencies contribute to a listener's perception 
 of style and consistency \citep{tymoczko2011geometry}. Constraints have also been used to steer probabilistic generation of music using Markov sequences \citep{pachet2011markov}. 
 
-In music education, constraint programming techniques have been used to generate exercices
+In music education, constraint programming has been used to generate exercices
 that are guaranteed to follow particular rules or stay within particular bounds, or to
 create sequences of exercices at appropriate difficulty levels for optimal learning.
 Examples include generation of rhythmic reading exercises \citep{percival2008generating},
@@ -212,7 +220,7 @@ curriculum planning \citep{holland2013artificial}.
 
 Turning to the Max environment, the use of constraints for computer assisted composition 
 is supported in Max through the BACH Project
-BACH provides a suite graphical programming objects for algorithmic composition,
+BACH provides a suite of graphical programming objects for algorithmic composition,
 inspired in part by OpenMusic, and including support for manipulating Lisp-like data structures 
 (lllls, or "Lisp-like linked lists) \citep{agostini2012bach}
 However, the BACH library does not provide any built in Lisp interpreter, thus while users can 
@@ -227,7 +235,7 @@ S4M-CSP runs on the Max audio/visual low-code programming environment, which was
 30 years ago and is used widely by musicians, composers, programmers, and audio visual artists to create
 music and multimedia works and interactive environments. 
 Max is predominantly a visual programming environment, in which interactive programs (called "patches" in Max parlance)
-are placing visual objects on a canvas and connecting them with virtual wires that pass symbolic messages or blocks 
+are created by placing visual objects on a canvas and connecting them with virtual wires that pass symbolic messages or blocks 
 of audio samples. However, in addition to the visual paradigm, Max supports textual programming predominantly through an integration
 with JavaScript (i.e., the js object), as well as through code editing for the Gen audio objects, 
 external processes through Node4Max, and Java code. 
@@ -236,7 +244,7 @@ created using the Max SDK and built in C or C++ \citep{zicarelli2002learned,puck
 Various of these also support working in code in Max through
 interfaces with other languages or embedded interpreters. 
 
-\begin{figure}[patch-1]
+\begin{figure}[t][patch-1]
 \centering
 \includegraphics[width=0.5\columnwidth]{sample-patch.png}
 \caption{A sample Max patch using Scheme for Max \label{fig:patch-1}}
@@ -315,7 +323,7 @@ process of creating real-time interfaces to the project.
 %  {\includegraphics[width=0.5\linewidth]{vel-offset-patch.png}}
 %\end{figure}
 
-\begin{figure}[patch-2]
+\begin{figure}[t][patch-2]
 \centering
 \includegraphics[width=0.6\columnwidth]{sample-patch-2.png}
 \caption{Building an s-expression in a Max patch with a keyboard \label{fig:patch-2}}
