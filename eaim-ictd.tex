@@ -99,12 +99,12 @@
   constraints using music theory terms. S4M-CSP runs in the Max
   interactive programming environment and is built using the
   open-source Scheme for Max (S4M) extension. We describe how the
-  solver and associated constraint specification language work. We
-  also discuss the advantages of being able to specify the constraints
-  programmatically and potentially change them in interactively in
-  real-time. The system has been used to create both ear training
-  exercies and algorithmically generated material for interactive
-  electro-acoustic music.
+  solver and associated constraint specification language work. Having
+  the solver written in Scheme enables the specification of
+  constraints programatically and using music theory
+  terminology. Constraints can also be changed dynamically. The system
+  has been used to create ear training exercies and algorithmically
+  generated material for interactive electro-acoustic music.
   
 \end{abstract}
 \begin{keywords}
@@ -131,9 +131,7 @@ Or a jazz ear training exercise may use rules to specify that a walking bassline
 specific generative rules, thus ensuring there is no ambiguity as to the underlying chord progression.
 In the case of a pedagogical exercise builder, it is not sufficient that the material generated be almost
 guaranteed to follow the rules specified, as false-positive or false-negatives will be extremely frustrating
-to the student. 
-
-Similarly, a composer exploring unique compositional processes may wish to have stochastically
+to the student. Similarly, a composer exploring unique compositional processes may wish to have stochastically
 generated material follow specific rules, where close enough is, in effect, a compositional failure.
 
 We present here S4M-CSP, a domain-specific constraint satisfaction problem (CSP) solver and 
@@ -200,10 +198,10 @@ to establish the defining features of musical style \citep{cope1989experiments}.
 Duane and Pardo \citep{duane2009streaming} describe using constraint optimization techniques as part 
 of computational system for auditory stream analysis from MIDI data of Classical, Baroque,
 and Romantic music. 
-In his widely acclaimed theory text, "The Geometry of Music", Dmitri Tymoczko describes using 
+In his widely acclaimed theory text, "A Geometry of Music", Dmitri Tymoczko describes using 
 constrained, randomly generated melodic and harmonic pitches
 to analyse which specific musical rules or tendencies contribute to a listener's perception 
-of style and consistency (Tymozcko, 2011). Constraints have also been used to steer probabilistic generation of music using Markov sequences \citep{pachet2011markov}. 
+of style and consistency \citep{tymoczko2011geometry}. Constraints have also been used to steer probabilistic generation of music using Markov sequences \citep{pachet2011markov}. 
 
 In music education, constraint programming techniques have been used to generate exercices
 that are guaranteed to follow particular rules or stay within particular bounds, or to
