@@ -433,13 +433,13 @@ To set up for a solve, we must assign any context variables that our
 custom predicates expect, and add constraints for the solve. 
 This is left to the discretion of the user; if no constraints are added,
 the first solution filling slots with values from the domain will pass and be returned.
-In the listing below we see the solver used to create a four note tone-row
-in which we start on C5, no notes are repeated, and pitches are 
-are no more than a perfect fourth from their neighbours.
-We depend on the function get-pitch-domain to set the possible
+In code listing ~\ref{lst:use} we see the solver used to create a four note tone-row
+in which we start on C5, no notes are repeated, and pitches are no more than a perfect fourth from their neighbours.
+We depend on the function {\it get-pitch-domain} to set the possible
 domain values prior to call.
 
-\begin{lstlisting}[language=Lisp,label=lst:use,caption=Using the solver]
+
+\begin{lstlisting}[float = t, language=Lisp,label=lst:use,caption=Using the solver]
 (define (add-constraints csp)
   (csp 'add-constraint (note-is? 'C5) '(0) 'start-on-C5)
   (csp 'add-global-constraint (diff? '(0 1)))
@@ -466,7 +466,7 @@ Contraints are implemented as boolean functions that receive three arguments:
 a reference to the solver that provides indirect access to other state variables
 and pre-assigned context variables; a numeric argument indicating the index
 of the current variable within the sequence, and the value tested.
-In the listing below we see a simple predicate to check if a note 
+In the listing ~\ref{lst:local-pred} we see a simple predicate to check if a note 
 is the tonic, which is assumed to be a pre-assigned context variable
 stored in the solver object.
 
@@ -480,7 +480,7 @@ stored in the solver object.
 
 We can use higher-order functions to create short hand predicates such as chord-root?, 
 where we use the function is-chord-factor? to return a predicate of the correct 
-signature. It assumes that the solver has a current chord, which can be accessed
+signature as shown in listing ~\ref{lst:higher-pred}. It assumes that the solver has a current chord, which can be accessed
 through the context variables 'root and 'quality and 'tonic.
 How the solver gets its current chord is left to the user, so long as it
 fulfills the contract of supporting the context variables 'root, 'quality, and 'tonic.
@@ -503,7 +503,7 @@ fulfills the contract of supporting the context variables 'root, 'quality, and '
 Global constraints are implemented as callables that accept two arguments:
 a reference to the solver (as with local constraints) and a list of
 all assigned notes, where unassigned notes will have the value false.
-In the listing below, we see provide a constraint that ensures
+In the listing ~\ref{lst:global-pred}, we see provide a constraint that ensures
 all notes are at or less than a given interval away from their immediate neighbours.
 Note that it is written such that it will pass until such time
 that all notes in a sequence have been assigned (i.e., not false).
@@ -530,17 +530,18 @@ that all notes in a sequence have been assigned (i.e., not false).
 
 \subsection{Propagation and Pruning}
 
-The current implementation is a classic, backtracking, depth-first solver.
-It does not include any implementation of forward propagation, 
-and there is not yet any implementation of pruning domain values
-during a solve or of undoing a prune when backtracking up a level. 
-
-As discussed previously, the solver creates a persistent tree representation of all paths that have been explored,
-with double-linked nodes such that paths from a node can be traversed up or down the tree. 
-This structure could be also be used to store domain changes from visiting and assigning a node, 
-which could be used to undo domain pruning when backtracking. 
-However, at present the paths-visited tree is used solely to track which paths have
-been taken so that random choices can be made at each node without revisiting previous paths.
+The current implementation is a classic, backtracking, depth-first
+solver.  It does not include any implementation of forward
+propagation, and there is not yet any implementation of pruning domain
+values during a solve or of undoing a prune when backtracking up a
+level. The solver also creates a persistent tree representation of all
+paths that have been explored, with double-linked nodes such that
+paths from a node can be traversed up or down the tree.  This
+structure could also be used to store domain changes from visiting
+and assigning a node, which could be used to undo domain pruning when
+backtracking.  However, at present the paths-visited tree is used
+solely to track which paths have been taken so that random choices can
+be made at each node without revisiting previous paths.
 
 \subsection{Variable and Value Selection}
 The current version chooses the next variable to be solved (i.e., the next pitch in the solution
@@ -548,9 +549,7 @@ sequence) by iterating through the list of variables (i.e., solution pitches) li
 Allowing the user to choose the order of variables solved
 could potentially be used to reduce the number of paths explored, as well
 as enable interesting compositional algorithms. For example, in 
-bass line implementation, one could work either forward or backward from the target.
-
-Value selection at present chooses random potential values
+bass line implementation, one could work either forward or backward from the target. Value selection at present chooses random potential values
 from the domain list using a random urn implementation. While this works
 to ensure the solver creates new pitches sequences on each solve 
 (i.e., it does not simply return the same melody over and over again)
