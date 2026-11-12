@@ -117,7 +117,7 @@ constraint programming, Max, Scheme, Scheme for Max, music
 
 In the 2020's, machine learning, and in particular deep learning, has inarguably become the dominant paradigm
 for artificial intelligence projects, including in the field of music. 
-However, classical AI techniques, such as expert systems implemented using constraint satisfaction, have 
+However, classic AI techniques, such as expert systems implemented using constraint satisfaction, have 
 characteristics that make them well suited to a variety of musical problems,
 and on modern machines, can be used in soft real time contexts where previously this would have been impractical.
 
@@ -499,7 +499,7 @@ that all notes in a sequence have been assigned (i.e., not false).
 
 \subsection{Propagation and Pruning}
 
-The current implementation is a classical, backtracking, depth-first solver.
+The current implementation is a classic, backtracking, depth-first solver.
 It does not include any implementation of forward propagation, 
 and there is not yet any implementation of pruning domain values
 during a solve or of undoing a prune when backtracking up a level. 
@@ -546,7 +546,7 @@ must be diatonic to the tonic key. Such a constraint could
 thus prune the domain for notes 1 to 3 to be diatonic only, greatly reducing the number of 
 branches to be attempted. 
 In the case that a dead-end is reached, pruning could be rewound if
-a record of the pruning action were stored as data on the paths-visitied tree structure.
+a record of the pruning action were stored as data on the paths-visited tree structure.
 
 \subsection{Assignment}
 Notes are assigned one at a time, but this is not always an appropriate heuristic for simulating
@@ -575,9 +575,7 @@ removing the option to declare constraints in plain Scheme when complexity warra
 \section{Outcomes and Conclusion}
 While much work remains to be done to make S4M-CSP into a library that would compete
 with offerings such as PWC or OpenMusic, the initial implementation succeeds in 
-meeting its goals.
-
-In our test runs, the solver is able to produce material fast enough to generate 
+meeting its goals. In our test runs, the solver is able to produce material fast enough to generate 
 material in perpetuity, depending on tempo, size of the domain, and degree of constraining.
 For example, we can generate idiomatic jazz bass lines as fast as a bass player
 would play them, given a standard chord progression. This alone makes the tool
